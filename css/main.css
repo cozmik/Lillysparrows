@@ -11,6 +11,10 @@
 .clearfix:after {
   clear: both;
 }
+.easyeditor {
+    background: white;
+    height:400px;
+}
 .hide-text {
   font: 0/0 a;
   color: transparent;
