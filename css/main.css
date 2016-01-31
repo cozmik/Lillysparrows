@@ -2,6 +2,10 @@
 .clearfix {
   *zoom: 1;
 }
+
+#white{
+    color:#fff;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -1237,7 +1241,8 @@ ul.faq li > div h3 {
 
 		/*Show all nav*/
 		nav.sidebar{
-			margin-left: 0px;
+			
+                        margin-left: -160px;
 			float: left;
 		}
 		/*Show hidden items on nav*/

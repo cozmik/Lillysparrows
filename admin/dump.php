@@ -67,10 +67,6 @@ include '../includes/functions.php';
 							</fieldset>
 						</form>
 					</div>
-                                        <div class="panel-footer ">
-						Don't have an account! <a href="registration.php"> Sign Up Here </a>
-					</div>
-                                    
                 </div>
 			</div>
 		</div>
@@ -88,3 +84,10 @@ include '../includes/functions.php';
     
 </body>
 </html>
+
+
+
+
+					<div class="panel-footer ">
+						Don't have an account! <a href="registration.php" onClick=""> Sign Up Here </a>
+					</div>
