@@ -1,3 +1,4 @@
+
 jQuery(function($) {
 
 	//#main-slider
@@ -5,6 +6,9 @@ jQuery(function($) {
 		$('#main-slider.carousel').carousel({
 			interval: 8000
 		});
+                
+                $('#fade').hide();
+                alert("hello");
 	});
 
 $(".dropdown-menu > li > a.trigger").on("click",function(e){
@@ -92,6 +96,9 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
 
 
     jQuery(document).ready(function($) {
+        
+
+        
         var easyEditor = new EasyEditor('#editor', {
             buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'image', 'list', 'x']
         });
@@ -144,6 +151,11 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
 			height2 = $('.main').height();
   			htmlbodyHeightUpdate();
 		});
+                
+                alert("hi");
+                
+                $('#admin_nav').hide();
+                
 	});
 
 $('.post-formCase').hide();
@@ -188,3 +200,5 @@ function htmlbodyHeightUpdate(){
 		}
 		
 	};
+        
+        

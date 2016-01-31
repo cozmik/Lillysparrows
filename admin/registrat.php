@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Registration | Flat Theme</title>
+    <title>Lillysparrows - Admin Registration</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/prettyPhoto.css" rel="stylesheet">
@@ -15,7 +15,7 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="shortcut icon" href="../images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../images/ico/apple-touch-icon-72-precomposed.png">
@@ -64,8 +64,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <h1>Login</h1>
-                    <p>Login to create posts...</p>
+                    <h1>Admin Registration</h1>
                 </div>
                 <div class="col-sm-6">
                     <ul class="breadcrumb pull-right">
@@ -78,55 +77,31 @@
         </div>
     </section><!--/#title-->     
 
-     <div class="container" style="margin-top:40px">
-		<div class="row">
-			<div class="col-sm-6 col-md-4 col-md-offset-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<strong> Sign in as Admin</strong>
-					</div>
-					<div class="panel-body">
-						<form role="form" action="#" method="POST">
-							<fieldset>
-								<div class="row">
-									<div class="center-block">
-										<img class="profile-img"
-											src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12 col-md-10  col-md-offset-1 ">
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon">
-													<i class="glyphicon glyphicon-user"></i>
-												</span> 
-												<input class="form-control" placeholder="Username" name="loginname" type="text" autofocus>
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon">
-													<i class="glyphicon glyphicon-lock"></i>
-												</span>
-												<input class="form-control" placeholder="Password" name="password" type="password" value="">
-											</div>
-										</div>
-										<div class="form-group">
-											<input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in">
-										</div>
-									</div>
-								</div>
-							</fieldset>
-						</form>
-					</div>
-					<div class="panel-footer ">
-						Don't have an account! <a href="registration.php" onClick=""> Sign Up Here </a>
-					</div>
+    <section id="registration" class="container">
+        <form class="center" role="form">
+            <fieldset class="registration-form">
+                <div class="form-group">
+                    <label for="username" class="sr-only">Username: </label>
+                    <input type="text" id="username" name="username" placeholder="Username" class="form-control">
                 </div>
-			</div>
-		</div>
-	</div>
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email: </label>
+                    <input type="email" id="email" name="email" placeholder="someone@domian.com" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="passsword" class="sr-only">Password: </label>
+                    <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="password_confirm" class="sr-only">Confirm password: </label>
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="Password (Confirm)" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-md btn-block">Register</button>
+                </div>
+            </fieldset>
+        </form>
+    </section><!--/#registration-->
 
     <section id="bottom" class="wet-asphalt">
         <div class="container">
