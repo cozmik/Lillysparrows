@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 31, 2016 at 08:13 AM
+-- Generation Time: Jan 31, 2016 at 02:57 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -149,15 +149,17 @@ CREATE TABLE IF NOT EXISTS `cozdb_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `cozdb_users`
 --
 
 INSERT INTO `cozdb_users` (`id`, `username`, `password`, `fName`, `lName`, `email`, `status`, `priviledges`) VALUES
-(1, 'a', 'a', 'tony', 'joe', 'tj@gmail.com', 'pending', 0),
-(8, 'b', 'b', 'ben', 'cole', 'bcole@gmail.com', 'pending', 0);
+(1, 'tj', 'a', 'tony', 'joe', 'tj@gmail.com', 'active', 2),
+(8, 'ben', 'b', 'ben', 'cole', 'bcole@gmail.com', 'blocked', 1),
+(11, 'cozmik', 'aaaa', 'kelvin', 'jake', 'kjake@webcontractorz.com', 'active', 0),
+(12, 'ken19', 'ks', 'kenneth', 'Smith', 'ksmith@gmail.com', 'pending', 0);
 
 -- --------------------------------------------------------
 

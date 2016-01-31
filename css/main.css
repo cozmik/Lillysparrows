@@ -3,6 +3,11 @@
   *zoom: 1;
 }
 
+.textbox{
+    text-align: center;
+    margin:3px 3px;
+}
+
 #white{
     color:#fff;
 }
@@ -1141,6 +1146,14 @@ ul.faq li > div h3 {
 	/* .....NavBar: Icon only with coloring/layout.....*/
 
 	/*small/medium side display*/
+        @media (max-width: 480px) {
+            .textbox{
+                text-align: center;
+                margin:3px 3px;
+                width:100%;
+            }
+        }
+        
 	@media (min-width: 768px) {
 
 		/*Allow main to be next to Nav*/

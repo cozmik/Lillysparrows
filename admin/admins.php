@@ -24,8 +24,9 @@
                                                     <th>User Name</th>
                                                     <th>Email</th>
                                                     <th>Priviledge Level</th>
-                                                    <th>Edit</th>
                                                     <th>Status</th>
+                                                    <th>Action</th>
+                                                    <th>Edit</th>
                                                     <th>Delete</th>
                                                     </thead>
                                                     <tbody>
@@ -41,10 +42,18 @@
                                                             <td><?php echo $row['username']; ?></td>
                                                             <td><?php echo $row['email']; ?></td>
                                                             <td><?php echo "Level ".$row['priviledges']; ?></td>
-                                                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><a href="id='<?php echo $row['id']; ?>'"><span class="glyphicon glyphicon-pencil"></span></a></button></p></td>
-                                                            <td><p data-placement="top" title="Edit"><a href="id='<?php echo $row['id']; ?>'"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                                            <td><p data-placement="top" data-toggle="tooltip" title="Status"><button class="btn btn-success btn-xs"><span><?php echo $row['status']; ?></span></button></p></td>
-                                                            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+<!--                                                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><a href="id='<?php echo $row['id']; ?>'"><span class="glyphicon glyphicon-pencil"></span></a></button></p></td>-->
+                                                            <td><?php echo $row['status']; ?></td>
+                                                            <?php if($row['status']== "active"){ ?>
+                                                            <td><p><button class="btn btn-danger btn-xs"><a href="?admin_block_id=<?php echo $row['id']; ?>"><span id="white">BLOCK</span></a></button></p></td>
+                                                            <?php }else if($row['status']== "blocked"){ ?>
+                                                            <td><p><button class="btn btn-warning btn-xs"><a href="?admin_unblock_id=<?php echo $row['id']; ?>"><span id="white">UNBLOCK</span></a></button></p></td>                                                          
+                                                            <?php }else{ ?>
+                                                            <td><p><button class="btn btn-success btn-xs"><a href="?admin_activate_id=<?php echo $row['id']; ?>"><span id="white">ACTIVATE</span></a></button></p></td>
+                                                            <?php }?>
+                                                            <td><a href="?admin_edit_id=<?php echo $row['id']; ?>"><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>     
+                                                            <td><a href="?admin_delete_id=<?php echo $row['id']; ?>"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></a></td> 
+<!--                                                            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>-->
                                                         </tr>
                                                         
                                                      <?php } ?>
@@ -54,11 +63,41 @@
                                                 </table>
 
                                                 <div class="clearfix"></div>
-
                                             </div>
-
                                         </div>
                                     </div>
+                                    <div class="row" style="background-color:#e1edf7; border-top: 3px solid #ccc; padding:5px 5px; display:<?php echo $admin_update_form;?>">
+                                        <div class="col-sm-12 col-xs-12">
+                                            <?php 
+                                            $query = "SELECT * FROM cozdb_users WHERE id ='{$admin_edit_id}'";
+                                            $admin_query = mysqli_query($con,$query);
+                                            while ($row = mysqli_fetch_assoc($admin_query)) {
+                                                $id = $row['id'];
+                                                $fname = $row['fName'];
+                                                $lname = $row['lName'];
+                                                $username = $row['username'];
+                                                $email = $row['email'];
+                                                $status = $row['status'];
+                                                $priviledges = $row['priviledges'];
+                                            
+                                            ?>
+                                            <form method="post">
+                                                <input class="textbox" type='text' name='update_fname' placeholder="first name" value="<?php echo $fname; ?>" />
+                                               <input class="textbox" type='text' name='update_lname' placeholder="last name"  value="<?php echo $lname; ?>"/>
+                                               <input class="textbox" type='text' name='update_username' placeholder="username"  value="<?php echo $username; ?>" />
+                                               <input class="textbox" type='text' name='update_email' placeholder="email"  value="<?php echo $email; ?>" />
+                                               <select name="update_admin-level" id="textbox">
+                                                        <option value="0">Priviledge Level 0</option>
+                                                        <option value="1">Priviledge Level 1</option>
+                                                        <option value="2">Priviledge Level 2</option>
+                                               </select>
+<!--                                               <input type="button" class="btn  btn-sm btn-default"name="update_admin_details" value="UPDATE" />-->
+                                               
+                                               <button name="update_admin_btn" class="btn btn-default btn-sm">UPDATE</button>
+                                           </form>
+                                            <?php } ?>
+                                        </div>
+                                     </div>
                                 </div>
 
 
