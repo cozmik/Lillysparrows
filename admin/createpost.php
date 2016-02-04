@@ -1,17 +1,6 @@
-<?php 
- include './admin_includes/admin_head.php';
-?>
-            <!--/header-->
-            <header class="navbar navbar-inverse navbar-fixed-top wet-asphalt" role="banner">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
-                            <span class="sr-only">Toggle navigation</span> 
-                            <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                        <a class="navbar-brand" href="index.php"><img src="../images/logo.png" alt="logo"></a> </div>
-                </div>
-            </header>
-            <!--/header-->
+<?php include './admin_includes/admin_head.php';
+      include './admin_includes/menu.php'; ?>
+
 
             <div style="background:white; padding-top:85px; padding-bottom: 4px;">
                 <div class="container">
@@ -24,10 +13,8 @@
                                         </label><div class="" style="display:inline-block; margin-left: 5px;">
                                             <select class="form-control" style="dispaly"> 
 
-                                                <option value="category">Categories</option>
+                                                <option value="Title">Titles</option>
                                                 <option value="date">Date</option>
-                                                <option value="author">Author</option>
-                                                <option value="comments">No of Comments</option>
                                                 <option value="published">Publish Status</option> 
                                             </select>
                                         </div>
@@ -35,29 +22,30 @@
 
                                     <p data-placement="top" data-toggle="tooltip" title="Write-post" style="display: inline-block; float: right; padding-top:20px">
                                         <button class="btn btn-primary write-post" data-title="write-post" data-toggle="modal" data-target="#write-post" >
-                                            Write Post</button></p>
+                                            New Post</button></p>
 
                                     <div class="post-formCase"style="width:100%;"> 
                                         <form action="" id="post-form" class="post-form" name="post-form">
                                             <div class="form-group">
                                                 <!-- Drop down of all Titles --> 
-                                                <div class="" style="display:inline-block; font-size:15px; width:100%"> <label class="sr-only"><h4>Choose category:</h4></label>
+                                                <div class="" style="display:inline-block; font-size:15px; width:100%"> <label class="sr-only"><h4>Sort by:</h4></label>
 
                                                     <select class="form-control"> 
-                                                        <option class="disabled">Choose Category</option>
+                                                        <option class="disabled">Choose title</option>
                                                         <option value="Title">Categories</option>
                                                         <option value="date">Date</option>
                                                         <option value="published">Publish Status</option> 
                                                     </select>
 
                                                 </div>
-                                            </div>    
+                                            </div>
+
                                             <div class="form-group">
-                                                <label for="title" class="control-label sr-only">Post title</label>
-                                                <input type="text" id="title" class="form-control" placeholder="Enter post title...">
+                                                <label for="title" class="control-label sr-only">Episode Title</label>
+                                                <input type="text" id="title" class="form-control" placeholder="Enter Episode title...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="post" class="control-label sr-only">Description</label>
+                                                <label for="post" class="control-label sr-only">Post body</label>
                                                 <textarea name="description" id="editor" class="form-control" rows="20" placeholder="Enter post body..."></textarea>
                                             </div>
 
@@ -181,7 +169,8 @@
                     </div>
                     <!-- /.modal-dialog --> 
                 </div>
-
+                
+                
                 <div class="easyeditor-modal is-hidden" id="easyeditor-modal-1">
                     <div class="easyeditor-modal-content">
                         <div class="easyeditor-modal-content-header">Upload image</div>
@@ -197,6 +186,5 @@
                         </div>
                     </div>
                 </div>
-                
-
+           
    <?php include './admin_includes/admin_footer.php'; ?>

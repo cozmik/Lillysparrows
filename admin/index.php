@@ -1,6 +1,5 @@
-<?php 
-include '../includes/db-connect.php'; 
-include '../includes/functions.php';
+<?php  
+include '../includes/functions2.php';
 
 
 ?>

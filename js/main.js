@@ -7,8 +7,7 @@ jQuery(function($) {
 			interval: 8000
 		});
                 
-                $('#fade').hide();
-                alert("hello");
+               
 	});
 
 $(".dropdown-menu > li > a.trigger").on("click",function(e){
@@ -93,55 +92,7 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
 
         _this.injectButton(settings);
     };
-
-
-    jQuery(document).ready(function($) {
-        
-
-        
-        var easyEditor = new EasyEditor('#editor', {
-            buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'image', 'list', 'x']
-        });
-
-        // form uploader starts
-        $loader = $('.easyeditor-modal-content-body-loader');
-        $('.easyeditor-modal-content-body').find('form').ajaxForm({
-            beforeSend: function() {
-                $loader.css('width', '0%');
-            },
-            uploadProgress: function(event, position, total, percentComplete) {
-                $loader.css('width', percentComplete + '%');
-            },
-            success: function() {
-                $loader.css('width', '100%');
-            },
-            complete: function(get) {
-                if(get.responseText != 'null') {
-                    easyEditor.insertHtml('<figure><img src="uploader_sdk/images/'+ get.responseText +'" alt=""></figure>');
-                    easyEditor.closeModal('#easyeditor-modal-1');
-                }
-            }
-        });
-        // form uploader ends
-
-
-        // sticky toolbar
-        var $cache = $('.easyeditor-toolbar');
-        var width = $cache.width();
-        var vTop = $cache.offset().top - parseFloat($cache.css('marginTop').replace(/auto/, 0));
-        $(window).scroll(function (event) {
-            var y = $(this).scrollTop();
-
-            if (y >= vTop) {
-                $cache.addClass('is-fixed').css('width', width + 'px');
-            } else {
-                $cache.removeClass('is-fixed').css('width', 'auto');
-            }
-        });
-
-    });
-	
-	
+		
 	$(document).ready(function () {
 		htmlbodyHeightUpdate();
 		$( window ).resize(function() {
@@ -150,10 +101,7 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
 		$( window ).scroll(function() {
 			height2 = $('.main').height();
   			htmlbodyHeightUpdate();
-		});
-                
-                alert("hi");
-                
+		});              
                 $('#admin_nav').hide();
                 
 	});
@@ -181,7 +129,6 @@ $('.postcancel').click(function(){
         $('.editPost').removeClass('disabled');
     });
 });
-	
 	
 });
 
