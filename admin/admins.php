@@ -1,188 +1,128 @@
-<?php 
- include './admin_includes/admin_head.php';
+<?php
+include './admin_includes/admin_head.php';
+include './admin_includes/menu.php';
 ?>
 
-            <div style="background:white; padding-top:85px; padding-bottom: 4px;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-11 tile">
-                            <div class="panel panel-default">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading"><h3>Admins</h3></div>
+<div id="page_container" style="padding-top: 120px">
 
-                                <!-- Table -->
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
+    <h1>Lillysparrows Admins</h1>
 
+    <table id="mytable" class="datatable table-bordered table-striped">
 
-                                                <table id="mytable" class="table table-bordred table-striped">
-                                                  
-                                                    <thead>
-                                                    <th>Full Name</th>
-                                                    <th>User Name</th>
-                                                    <th>Email</th>
-                                                    <th>Priviledge Level</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                    <th>Edit</th>
-                                                    <th>Delete</th>
-                                                    </thead>
-                                                    <tbody>
+        <thead>
+        <th>Full Name</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Privilege Level</th>
+        <th>Status</th>
+        <th>Functions</th>
+        <th>change status</th>
+        </thead>
+        <tbody>
+        </tbody>
 
-<!--  =-------------------------------------------- query to select all admins-->
-                                                    <?php 
-                                                     $query = "SELECT * FROM cozdb_users";
-                                                     $select_all_admins = mysqli_query($con, $query);
-                                                     while($row = mysqli_fetch_assoc($select_all_admins)) {
-                                                    ?>	
-                                                        <tr>
-                                                            <td><?php echo $row['fName']." ".$row['lName']; ?></td>
-                                                            <td><?php echo $row['username']; ?></td>
-                                                            <td><?php echo $row['email']; ?></td>
-                                                            <td><?php echo "Level ".$row['priviledges']; ?></td>
-<!--                                                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><a href="id='<?php echo $row['id']; ?>'"><span class="glyphicon glyphicon-pencil"></span></a></button></p></td>-->
-                                                            <td><?php echo $row['status']; ?></td>
-                                                            <?php if($row['status']== "active"){ ?>
-                                                            <td><p><button class="btn btn-danger btn-xs"><a href="?admin_block_id=<?php echo $row['id']; ?>"><span id="white">BLOCK</span></a></button></p></td>
-                                                            <?php }else if($row['status']== "blocked"){ ?>
-                                                            <td><p><button class="btn btn-warning btn-xs"><a href="?admin_unblock_id=<?php echo $row['id']; ?>"><span id="white">UNBLOCK</span></a></button></p></td>                                                          
-                                                            <?php }else{ ?>
-                                                            <td><p><button class="btn btn-success btn-xs"><a href="?admin_activate_id=<?php echo $row['id']; ?>"><span id="white">ACTIVATE</span></a></button></p></td>
-                                                            <?php }?>
-                                                            <td><a href="?admin_edit_id=<?php echo $row['id']; ?>"><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>     
-                                                            <td><a href="?admin_delete_id=<?php echo $row['id']; ?>"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></a></td> 
-<!--                                                            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>-->
-                                                        </tr>
-                                                        
-                                                     <?php } ?>
-
-                                                    </tbody>
-
-                                                </table>
-
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="background-color:#e1edf7; border-top: 3px solid #ccc; padding:5px 5px; display:<?php echo $admin_update_form;?>">
-                                        <div class="col-sm-12 col-xs-12">
-                                            <?php 
-                                            $query = "SELECT * FROM cozdb_users WHERE id ='{$admin_edit_id}'";
-                                            $admin_query = mysqli_query($con,$query);
-                                            while ($row = mysqli_fetch_assoc($admin_query)) {
-                                                $id = $row['id'];
-                                                $fname = $row['fName'];
-                                                $lname = $row['lName'];
-                                                $username = $row['username'];
-                                                $email = $row['email'];
-                                                $status = $row['status'];
-                                                $priviledges = $row['priviledges'];
-                                            
-                                            ?>
-                                            <form method="post">
-                                                <input class="textbox" type='text' name='update_fname' placeholder="first name" value="<?php echo $fname; ?>" />
-                                               <input class="textbox" type='text' name='update_lname' placeholder="last name"  value="<?php echo $lname; ?>"/>
-                                               <input class="textbox" type='text' name='update_username' placeholder="username"  value="<?php echo $username; ?>" />
-                                               <input class="textbox" type='text' name='update_email' placeholder="email"  value="<?php echo $email; ?>" />
-                                               <select name="update_admin-level" id="textbox">
-                                                        <option value="0">Priviledge Level 0</option>
-                                                        <option value="1">Priviledge Level 1</option>
-                                                        <option value="2">Priviledge Level 2</option>
-                                               </select>
-<!--                                               <input type="button" class="btn  btn-sm btn-default"name="update_admin_details" value="UPDATE" />-->
-                                               
-                                               <button name="update_admin_btn" class="btn btn-default btn-sm">UPDATE</button>
-                                           </form>
-                                            <?php } ?>
-                                        </div>
-                                     </div>
-                                </div>
+    </table>  
+</div>
 
 
-                                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                                <h4 class="modal-title custom_align" id="Heading">Edit Admin Details</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label sr-only" for="username">User Name</label>
-                                                    <input class="form-control " id="username" type="text" placeholder="isometric01" style="width:100%;">
-                                                </div>
+<div class="container" style="z-index: 1000;">
+    <div class="row">
+        <div class="col-lg-11 tile">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h5>Admins Level Info</h5></div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
+                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label sr-only" for="contact">Contact</label>
-                                                    <input class="form-control " id="contact" type="text" placeholder="+923335586757" style="width:100%;">
-                                                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label sr-only" for="admin-level">Admin Level</label>
-                                                    <select name="admin-level" id="admin-level" class="form-control">
-                                                        <option value="0">Admin Level 0</option>
-                                                        <option value="1" selected="selected">Admin Level 1</option>
-                                                        <option value="2">Admin Level 2</option>
-                                                        <option value="3">Admin Level 3</option>
-                                                        <option value="4">Admin Level 4</option>
-                                                    </select>
-                                                </div>
-                                                </form>
-                                            </div>
+<div class="lightbox_bg" style="z-index: 3000;"></div>
+<div class="lightbox_container  col-row-8" >
+    <div class="lightbox_close"></div>
+    <div class="lightbox_content">
 
-                                            <div class="modal-footer ">
-                                                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-                                            </div>
-                                        </div>
-                                        <!-- /.modal-content --> 
-                                    </div>
-                                    <!-- /.modal-dialog --> 
-                                </div>
-
-
-
-                                <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
-
-                                            </div>
-                                            <div class="modal-footer ">
-                                                <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-                                            </div>
-                                        </div>
-                                        <!-- /.modal-content --> 
-                                    </div>
-                                    <!-- /.modal-dialog --> 
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
+        <h2>Edit Admin</h2>
+        <form class="form add" id="admin_form" data-id="" novalidate>
+            <div class="input_container form-group">
+                <label for="first_name" class="sr-only">First name: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="text" step="1" min="0" class="text" name="first_name" id="first_name" value="" required placeholder="First name">
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-11 tile">
-                            <div class="panel panel-info">
-                                <div class="panel-heading"><h5>Admins Level Info</h5></div>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-                                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="input_container form-group">
+                <label for="last_name" class="sr-only">Last name: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="text" class="text" name="last_name" id="last_name" value="" required placeholder="Last name">
                 </div>
- 
-                <?php include './admin_includes/admin_footer.php'; ?>
+             
+            <div class="input_container form-group hidden">
+                <label for="username" class="sr-only">Username: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="text" class="text" name="username" id="username" value="" required placeholder="Username">
+                </div>
+            </div>    
+             
+            </div>
+            <div class="input_container form-group">
+                <label for="email" class="sr-only">Email: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="email" class="text" name="email" id="email" value="" required placeholder="Email address">
+                </div>
+            </div>
+            
+            <div class="input_container form-group hidden">
+                <label for="password" class="sr-only">Password: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="password" class="text" name="password" id="password" value="" required placeholder="Password">
+                </div>
+            </div>
+            <div class="input_container form-group">
+                <label for="status" class="sr-only">Status: <span class="required">*</span></label>
+                <div class="field_container">
+                    <select type="text" step="1" class="text form-control" name=status id="status">
+                        <option value=""></option>
+                        <option value="active">Activate</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input_container form-group">
+                <label for="privilege" class="sr-only">Privilege: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="text" class="text form-control" name="privilege" id="privilege" value="" required placeholder="privilege">
+                </div>
+            </div>
+            
+            <div class="button_container form-group">
+                <button type="submit">Edit admin</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<noscript id="noscript_container">
+<div id="noscript" class="error">
+    <p>JavaScript support is needed to use this page.</p>
+</div>
+</noscript>
+
+<div id="message_container">
+    <div id="message" class="success">
+        <p>This is a success message.</p>
+    </div>
+</div>
+
+<div id="loading_container">
+    <div id="loading_container2">
+        <div id="loading_container3">
+            <div id="loading_container4">
+                Loading, please wait...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php include './admin_includes/admin_footer.php'; ?>
