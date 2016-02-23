@@ -49,6 +49,7 @@ table td {
 label {
   cursor: pointer;
 }
+
 input,
 button,
 select {
@@ -620,6 +621,7 @@ table.datatable tbody td.functions .function_buttons span {
   background-color: #333;
   background-color: rgba(0, 0, 0, 0.85);
   text-align: center;
+  z-index: 8050;
 }
 #loading_container2 {
   width: 100%;

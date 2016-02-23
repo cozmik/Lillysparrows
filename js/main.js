@@ -10,6 +10,55 @@ jQuery(function($) {
                
 	});
 
+$(document).on('click', '.new_author', function(e) {
+	$('.form_author').slideDown().next('.form_quote').slideUp(function() {
+		$('.dtitle').text('Add Author');
+	});
+});
+
+$(document).on('click', '.cancle', function(e) {
+	$('.form_quote').slideDown().prev('.form_author').slideUp(function() {
+		$('.dtitle').text('Add Quote');
+	});
+});
+
+$(document).on('click', '.closer', function(e) {
+	$('.form_quote').slideDown().prev('.form_author').slideUp(function() {
+		$('.dtitle').text('Add Quote');
+	});
+});
+
+$(document).on('click', '.newAuthor', function(e) {
+	$('.form_quote').slideDown().prev('.form_author').slideUp(function() {
+		$('.dtitle').text('Add Quote');
+	});
+});
+
+$(document).on('click', '.add_btn', function(e) {
+	$('.form_story').slideDown();
+	$('.edit_btn').addClass('disabled');
+	$('.delete_btn').addClass('disabled');
+	$('.add_btn').addClass('disabled');
+});
+
+$(document).on('click', '.story_cancel', function(e) {
+	$('.form_story').slideUp();
+	$('.edit_btn').removeClass('disabled');
+	$('.delete_btn').removeClass('disabled');
+	$('.add_btn').removeClass('disabled');
+});
+
+
+
+
+$(document).on('click', '.function_edit_story', function(e) {
+	$('.form_story').slideDown();
+	$('.function_edit_story').addClass('disabled');
+	$('.function_delete_story').addClass('disabled');
+	$('#add_story').addClass('disabled');
+});
+
+
 $(".dropdown-menu > li > a.trigger").on("click",function(e){
 		var current=$(this).next();
 		var grandparent=$(this).parent().parent();
@@ -92,7 +141,7 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
 
         _this.injectButton(settings);
     };
-		
+		});
 	$(document).ready(function () {
 		htmlbodyHeightUpdate();
 		$( window ).resize(function() {
@@ -106,31 +155,6 @@ $(".dropdown-menu > li > a.trigger").on("click",function(e){
                 
 	});
 
-$('.post-formCase').hide();
-$('.write-post').click(function(){
-    $('.post-formCase').slideDown(500, function(){
-        $('.write-post').addClass('disabled');
-        $('.postcancel').text('Cancel');
-        $('.editPost').addClass('disabled');
-    });
-});
-
-$('.editPost').click(function(){
-    $('.post-formCase').slideDown(500, function(){
-        $('.write-post').addClass('disabled');
-        $('.postcancel').text('Cancel edit');
-        $('.editPost').addClass('disabled');
-    });
-});
-
-$('.postcancel').click(function(){
-    $('.post-formCase').slideUp(500, function(){
-        $('.write-post').removeClass('disabled');
-        $('.editPost').removeClass('disabled');
-    });
-});
-	
-});
 
 function htmlbodyHeightUpdate(){
 		var height3 = $( window ).height();
@@ -147,5 +171,3 @@ function htmlbodyHeightUpdate(){
 		}
 		
 	};
-        
-        

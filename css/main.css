@@ -1311,3 +1311,15 @@ ul.faq li > div h3 {
 	.menu>h4 span{
 		color:red;
 	}
+
+  .form_author {
+    display: none;
+  }
+
+  .form_story{
+    display: none;
+  }
+
+  .menu h4 span {
+    color: white;
+  }

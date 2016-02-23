@@ -13,13 +13,14 @@ include './admin_includes/menu.php';
             <div class="col-lg-12 tile">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h1>Story Titles</h1>
+                        <h1 style="display: inline-block">Stories</h1>
+                        <div class="btn btn-primary pull-right" id="add_title" style="display: inline-block" data-toggle="modal" data-target="#addTitle">New story</div>
                         
                     </div>
                    
                     <style>
                         table td:nth-child(3) {
-                            width: 60%;
+                            width: 40%;
                         }
                         table td:nth-child(2) {
                             width: 20%;
@@ -58,98 +59,28 @@ include './admin_includes/menu.php';
 </div>
 
 
-<div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Add Title</h4>
-      </div>
-          <div class="modal-body">
-         
-        <div class="form-group">
-        <label class="col-xs-3 control-label sr-only" for="title">Title: </label>
-        <input class="form-control col-lg-6" style="width: 100%;" id="title" type="text" placeholder="Title">
-        </div>
-        
+<div class="lightbox_bg" style="z-index: 8000;"></div>
+<div class="lightbox_container  col-row-8" style="z-index: 8050; width: 60%; margin-left: 10%; margin-right: 10%; height: auto; padding-bottom: 50px;" >
+    <div class="lightbox_close"></div>
+    <div class="lightbox_content">
+
+        <h2>Add title</h2>
+        <form class="form add" id="title_form" data-id="" novalidate>
+            <div class="input_container form-group">
+                <label for="first_name">Title: <span class="required">*</span></label>
+                <div class="field_container">
+                    <input type="text" class="text" name="title" id="title" value="" required placeholder="Enter story title">
+                </div>
+            </div>
+            
+            <div class="button_container form-group">
+                <button type="submit">Add title</button>
+            </div>
+        </form>
+
     </div>
-        
-          <div class="modal-footer ">
-        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
-    
-    
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Edit Title</h4>
-      </div>
-          <div class="modal-body">
-         
-        <div class="form-group">
-        <label class="col-xs-3 control-label sr-only" for="title">Title: </label>
-        <input class="form-control " id="title" style="width: 100%;" type="text" placeholder="Title">
-        </div>
-        
-    </div>
-        
-          <div class="modal-footer ">
-        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
-    
-    
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Delete Category</h4>
-      </div>
-          <div class="modal-body">
-       
-       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
-       <div><span>All Episodes under this title will be deleted!</span></div>
-      </div>
-        <div class="modal-footer ">
-        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
-    
-   
-      </div>
-    </div>
-  </div>
-    </div>
-        <div class="container">
-      <div class="row">
-        <div class="col-lg-11 tile">
-          <div class="panel panel-info">
-              <div class="panel-heading"><h5>Admins Level Info</h5></div>
-              <p style="padding: 10px;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-              </p>
-           </div>
-        </div>
-      </div>
-   </div>
+</div>
+
+<?php include './admin_includes/loader.php'; ?>
   
 <?php include './admin_includes/admin_footer.php'; ?>

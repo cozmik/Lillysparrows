@@ -39,27 +39,27 @@ include './admin_includes/menu.php';
     </div>
 </div>
 
-<div class="lightbox_bg" style="z-index: 3000;"></div>
-<div class="lightbox_container  col-row-8" >
+<div class="lightbox_bg" style="z-index: 8000;"></div>
+<div class="lightbox_container  col-row-8" style="z-index: 8050; width: 60%; margin-left: 10%; margin-right: 10%; height: auto; padding-bottom: 50px;" >
     <div class="lightbox_close"></div>
     <div class="lightbox_content">
 
         <h2>Edit Admin</h2>
         <form class="form add" id="admin_form" data-id="" novalidate>
             <div class="input_container form-group">
-                <label for="first_name" class="sr-only">First name: <span class="required">*</span></label>
+                <label for="first_name">First name: <span class="required">*</span></label>
                 <div class="field_container">
                     <input type="text" step="1" min="0" class="text" name="first_name" id="first_name" value="" required placeholder="First name">
                 </div>
             </div>
             <div class="input_container form-group">
-                <label for="last_name" class="sr-only">Last name: <span class="required">*</span></label>
+                <label for="last_name">Last name: <span class="required">*</span></label>
                 <div class="field_container">
                     <input type="text" class="text" name="last_name" id="last_name" value="" required placeholder="Last name">
                 </div>
              
             <div class="input_container form-group hidden">
-                <label for="username" class="sr-only">Username: <span class="required">*</span></label>
+                <label for="username">Username: <span class="required">*</span></label>
                 <div class="field_container">
                     <input type="text" class="text" name="username" id="username" value="" required placeholder="Username">
                 </div>
@@ -67,7 +67,7 @@ include './admin_includes/menu.php';
              
             </div>
             <div class="input_container form-group">
-                <label for="email" class="sr-only">Email: <span class="required">*</span></label>
+                <label for="email">Email: <span class="required">*</span></label>
                 <div class="field_container">
                     <input type="email" class="text" name="email" id="email" value="" required placeholder="Email address">
                 </div>
@@ -80,7 +80,7 @@ include './admin_includes/menu.php';
                 </div>
             </div>
             <div class="input_container form-group">
-                <label for="status" class="sr-only">Status: <span class="required">*</span></label>
+                <label for="status">Status: <span class="required">*</span></label>
                 <div class="field_container">
                     <select type="text" step="1" class="text form-control" name=status id="status">
                         <option value=""></option>
@@ -89,7 +89,7 @@ include './admin_includes/menu.php';
                 </div>
             </div>
             <div class="input_container form-group">
-                <label for="privilege" class="sr-only">Privilege: <span class="required">*</span></label>
+                <label for="privilege" >Privilege Level: <span class="required">*</span></label>
                 <div class="field_container">
                     <input type="text" class="text form-control" name="privilege" id="privilege" value="" required placeholder="privilege">
                 </div>

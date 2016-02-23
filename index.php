@@ -21,7 +21,11 @@
         <div class="row">
             <aside class="col-sm-4 col-sm-push-8">
                 <?php include 'modules/widget-bar.php' ?>
-            </aside>        
+            </aside> 
+
+
+
+                   
             <div class="col-sm-8 col-sm-pull-4">
                 <div class="blog">
                     <div class="blog-item">

@@ -10,9 +10,42 @@ include './admin_includes/menu.php';
         <div class="row">
             <div class="col-lg-12 tile">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h1>Posts</h1>
+                   <div class="panel-heading">
+                        <h1 style="display: inline-block">Posts</h1>
+                        <div class="btn btn-primary pull-right add_btn" id="add_post" style="display: inline-block">New post</div>
                         
+                    </div>
+                    <div class="form_story" style="padding: 10px 10px 30px 10px;" >
+                       <form action="" id="post_form" class="post-form" name="post-form">
+                                            <div class="form-group">
+                                                <!-- Drop down of all Titles --> 
+                                                <div class="" style="display:inline-block; font-size:15px; width:100%"> <label class="sr-only"><h4>Sort by:</h4></label>
+
+                                                    <select class="form-control" id="select_category" name="select_category" name="select_category"> 
+                                                       
+                                                    </select>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="post_title" class="control-label sr-only">Episode Title: </label>
+                                                <input type="text" id="post_title" name="post_title" class="post_title" class="form-control" placeholder="Enter post title...">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="post_body" class="control-label sr-only">Post body: </label>
+                                                <textarea name="post_body" id="post_body" class="form-control storyPost post_body" rows="10" placeholder="Enter post body..."></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="postPix" class="control-label sr-only">Post Picture: </label>
+                                                <input type="file" id="postPix" class="form-control postPix" name="postPix" placeholder="upload picture...">
+                                            </div>
+
+                                            <button type="submit" class="btn btn-success post_submit">publish post</button>
+                                            <button type="button" class="btn btn-primary post_draft">save as draft</button>
+                                            <button type="reset" class="btn btn-danger pull-right story_cancel">cancel</button>
+                                        </form>
+
                     </div>
                    
                     <style>
@@ -33,10 +66,11 @@ include './admin_includes/menu.php';
 
                                         <thead>
                                         <th>Date</th>
-                                        <th>Post author</th>
-                                        <th>Post Category</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
                                         <th>Post Title</th>                                                                                                       
                                         <th>Post</th>
+                                        <th>comments</th>
                                         <th>Status</th>
                                         <th>Function</th>                                                 
                                         </thead>
@@ -59,44 +93,6 @@ include './admin_includes/menu.php';
 
 
 
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
-
-            </div>
-            <div class="modal-footer ">
-                <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-            </div>
-        </div>
-        <!-- /.modal-content --> 
-    </div>
-    <!-- /.modal-dialog --> 
-</div>
-
-
-<div class="easyeditor-modal is-hidden" id="easyeditor-modal-1">
-    <div class="easyeditor-modal-content">
-        <div class="easyeditor-modal-content-header">Upload image</div>
-        <div class="easyeditor-modal-content-body">
-            <div class="easyeditor-modal-content-body-loader"></div>
-            <button class="easyeditor-modal-close">x</button>
-
-            <form action="uploader_sdk/" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" id="easyeditor-file">
-                <button type="submit" name="easyeditor-upload">Upload and insert</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
+<?php include './admin_includes/loader.php'; ?>
 
 <?php include './admin_includes/admin_footer.php'; ?>
