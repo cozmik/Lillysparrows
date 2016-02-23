@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2016 at 10:17 AM
+-- Generation Time: Feb 23, 2016 at 04:37 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -29,15 +29,27 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `cozdb-categories` (
   `id` int(11) NOT NULL,
   `Name` varchar(55) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cozdb-categories`
 --
 
 INSERT INTO `cozdb-categories` (`id`, `Name`) VALUES
-(1, 'category one'),
-(2, 'category two');
+(8, 'another good guy girl'),
+(9, 'The first and the last'),
+(1, 'Uncategorized');
+
+--
+-- Triggers `cozdb-categories`
+--
+DELIMITER $$
+CREATE TRIGGER `cozdb-categories_BEFORE_DELETE` BEFORE DELETE ON `cozdb-categories`
+ FOR EACH ROW BEGIN
+	update `cozdb-post` set `categoryID` = 1;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -46,18 +58,18 @@ INSERT INTO `cozdb-categories` (`id`, `Name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cozdb-comments` (
-  `postID` int(11) NOT NULL,
   `author` varchar(55) NOT NULL,
   `img` varchar(45) DEFAULT NULL,
-  `comment` longtext
+  `comment` longtext,
+  `cozdb-post_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cozdb-comments`
 --
 
-INSERT INTO `cozdb-comments` (`postID`, `author`, `img`, `comment`) VALUES
-(1, 'kel', NULL, 'jasjda aj  ijaij as sjsiojcosa cas cjsiocjs aco scj dsocj dsocsjd cosdc scsj coscjso cjs csijc scpo sciosjc socdsiocsd');
+INSERT INTO `cozdb-comments` (`author`, `img`, `comment`, `cozdb-post_id`) VALUES
+('kel', NULL, 'jasjda aj  ijaij as sjsiojcosa cas cjsiocjs aco scj dsocj dsocsjd cosdc scsj coscjso cjs csijc scpo sciosjc socdsiocsd', 1);
 
 -- --------------------------------------------------------
 
@@ -68,23 +80,22 @@ INSERT INTO `cozdb-comments` (`postID`, `author`, `img`, `comment`) VALUES
 CREATE TABLE IF NOT EXISTS `cozdb-post` (
   `id` int(11) NOT NULL,
   `postTitle` varchar(50) NOT NULL,
-  `author-user` int(11) NOT NULL,
   `post` longtext NOT NULL,
-  `categoryID` int(11) NOT NULL,
+  `categoryID` int(11) NOT NULL DEFAULT '0',
   `img` varchar(45) DEFAULT NULL,
   `date` varchar(20) NOT NULL,
   `status` tinyint(1) DEFAULT '0' COMMENT 'For published and unpublished',
-  `tags` longtext
+  `tags` longtext,
+  `author_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cozdb-post`
 --
 
-INSERT INTO `cozdb-post` (`id`, `postTitle`, `author-user`, `post`, `categoryID`, `img`, `date`, `status`, `tags`) VALUES
-(1, 'post test1', 9, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', 2, NULL, '12/05/2015', 0, 'what, is, the, tag?'),
-(2, 'post test2', 10, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', 1, NULL, '1/1/2016', 1, 'the, tag, get'),
-(3, 'another post', 10, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', 1, NULL, '12/06/2015', 0, 'what, a, tag, does');
+INSERT INTO `cozdb-post` (`id`, `postTitle`, `post`, `categoryID`, `img`, `date`, `status`, `tags`, `author_id`) VALUES
+(1, 'post test1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', 1, NULL, '12/05/2015', 0, 'what, is, the, tag?', 1),
+(2, 'post test2 ', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', 1, NULL, '1/1/2016', 1, 'the, tag, get', 1);
 
 -- --------------------------------------------------------
 
@@ -96,14 +107,18 @@ CREATE TABLE IF NOT EXISTS `cozdb-quotes` (
   `id` int(11) NOT NULL,
   `quote` longtext NOT NULL,
   `quote_author` int(50) NOT NULL COMMENT 'The person who originated the quote'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cozdb-quotes`
 --
 
 INSERT INTO `cozdb-quotes` (`id`, `quote`, `quote_author`) VALUES
-(1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo', 1);
+(1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo', 1),
+(3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 2),
+(10, 'vdtr6 tyfi ytfiy tyfkuo tfou vyu f67f yf ufkulg liug luig liug', 2),
+(11, 'ghfty f fityf ou gggggggggggggggtyo gku gfkhyf gogfffffffffffffffffuuyu tyyotf yof yuooyu', 1),
+(12, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo', 1);
 
 -- --------------------------------------------------------
 
@@ -124,8 +139,6 @@ CREATE TABLE IF NOT EXISTS `cozdb-storyepisode` (
 --
 
 INSERT INTO `cozdb-storyepisode` (`id`, `titleID`, `story`, `image`, `episodeTitle`) VALUES
-(1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', NULL, 'episode 1'),
-(2, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute....', NULL, 'episode 1'),
 (3, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." ', NULL, 'The other try');
 
 -- --------------------------------------------------------
@@ -136,18 +149,20 @@ INSERT INTO `cozdb-storyepisode` (`id`, `titleID`, `story`, `image`, `episodeTit
 
 CREATE TABLE IF NOT EXISTS `cozdb-storytitle` (
   `id` int(11) NOT NULL,
-  `author` varchar(50) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `image` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `image` varchar(45) DEFAULT NULL,
+  `author` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cozdb-storytitle`
 --
 
-INSERT INTO `cozdb-storytitle` (`id`, `author`, `title`, `image`) VALUES
-(1, '10', 'The first Story', NULL),
-(2, '9', 'The second story', NULL);
+INSERT INTO `cozdb-storytitle` (`id`, `title`, `image`, `author`) VALUES
+(2, 'Actually first', NULL, 1),
+(5, 'play new title', NULL, 1),
+(7, 'the new title', NULL, 1),
+(12, 'The run-away boy', NULL, 11);
 
 -- --------------------------------------------------------
 
@@ -158,27 +173,17 @@ INSERT INTO `cozdb-storytitle` (`id`, `author`, `title`, `image`) VALUES
 CREATE TABLE IF NOT EXISTS `cozdb_mailing` (
   `id` int(255) NOT NULL,
   `email` varchar(70) NOT NULL,
-  `confirmed` tinyint(4) NOT NULL DEFAULT '0'
+  `confirmed` tinyint(4) NOT NULL DEFAULT '0',
+  `confirm_link` varchar(50) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cozdb_mailing`
 --
 
-INSERT INTO `cozdb_mailing` (`id`, `email`, `confirmed`) VALUES
-(1, 'cozmik05@gmail.com', 1),
-(2, 'blinder_007@yahoo.com', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cozdb_subscribers`
---
-
-CREATE TABLE IF NOT EXISTS `cozdb_subscribers` (
-  `id` int(11) NOT NULL,
-  `email` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `cozdb_mailing` (`id`, `email`, `confirmed`, `confirm_link`) VALUES
+(1, 'cozmik05@gmail.com', 1, ''),
+(2, 'blinder_007@yahoo.com', 0, '');
 
 -- --------------------------------------------------------
 
@@ -188,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `cozdb_subscribers` (
 
 CREATE TABLE IF NOT EXISTS `cozdb_users` (
   `id` int(11) NOT NULL,
-  `username` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL DEFAULT 'Admin',
   `password` varchar(45) NOT NULL,
   `fName` varchar(45) NOT NULL,
   `lName` varchar(45) NOT NULL,
@@ -202,9 +207,19 @@ CREATE TABLE IF NOT EXISTS `cozdb_users` (
 --
 
 INSERT INTO `cozdb_users` (`id`, `username`, `password`, `fName`, `lName`, `email`, `status`, `priviledges`) VALUES
-(9, 'cozmik', '111', 'cozmik', 'coz3', 'cozmik05@webcontractorz.com', 'suspended', 2),
-(10, 'dCoz', '111', 'cash', 'flow', 'coz@themail.com', 'active', 0),
+(1, 'Lillysparrows', '111', 'Lillian', 'Eserunine', 'lillysparrows@gmail.com', 'active', 0),
 (11, 'anthony', '111', 'anthony', 'anthony', 'anthony@gmail.com', 'pending', 2);
+
+--
+-- Triggers `cozdb_users`
+--
+DELIMITER $$
+CREATE TRIGGER `cozdb_users_BEFORE_DELETE` BEFORE DELETE ON `cozdb_users`
+ FOR EACH ROW BEGIN
+ update `cozdb-post` SET `author_id`= 1;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -230,8 +245,9 @@ CREATE TABLE IF NOT EXISTS `post_view` (
 ,`date` varchar(20)
 ,`status` tinyint(1)
 ,`tags` longtext
-,`Name` varchar(55)
 ,`username` varchar(45)
+,`Name` varchar(55)
+,`no_comments` bigint(21)
 );
 
 -- --------------------------------------------------------
@@ -244,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `quote_author` (
   `id` int(255) NOT NULL,
   `author_name` varchar(50) NOT NULL,
   `year` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quote_author`
@@ -253,7 +269,12 @@ CREATE TABLE IF NOT EXISTS `quote_author` (
 INSERT INTO `quote_author` (`id`, `author_name`, `year`) VALUES
 (1, 'Steve Jobbs', '1952 - 2010'),
 (2, 'Bill Gates', '1963 till date'),
-(3, 'Anonymous', NULL);
+(3, 'Anonymous', NULL),
+(4, 'Esekhile Kelvin', '1989 till date'),
+(5, 'the uther', '1900 - 2016'),
+(6, 'Woverine', '10000 till date'),
+(7, 'fxyfxdtu ', '1200'),
+(8, 'dtrd', '20000');
 
 -- --------------------------------------------------------
 
@@ -289,8 +310,8 @@ CREATE TABLE IF NOT EXISTS `story_view` (
 --
 CREATE TABLE IF NOT EXISTS `title_episode_view` (
 `id` int(11)
-,`title` varchar(100)
 ,`username` varchar(45)
+,`title` varchar(100)
 ,`total_episode` bigint(21)
 );
 
@@ -316,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `view_story` (
 --
 DROP TABLE IF EXISTS `post_number`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `post_number` AS select `cozdb-categories`.`id` AS `id`,`cozdb-categories`.`Name` AS `Name`,count(`cozdb-post`.`post`) AS `post_numbers` from (`cozdb-categories` join `cozdb-post`) where (`cozdb-categories`.`id` = `cozdb-post`.`categoryID`) group by `cozdb-categories`.`Name`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `post_number` AS select `cozdb-categories`.`id` AS `id`,`cozdb-categories`.`Name` AS `Name`,count(`cozdb-post`.`post`) AS `post_numbers` from (`cozdb-categories` left join `cozdb-post` on((`cozdb-categories`.`id` = `cozdb-post`.`categoryID`))) group by `cozdb-categories`.`Name`;
 
 -- --------------------------------------------------------
 
@@ -325,7 +346,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `post_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `post_view` AS select `cozdb-post`.`id` AS `id`,`cozdb-post`.`postTitle` AS `postTitle`,`cozdb-post`.`post` AS `post`,`cozdb-post`.`img` AS `img`,`cozdb-post`.`date` AS `date`,`cozdb-post`.`status` AS `status`,`cozdb-post`.`tags` AS `tags`,`cozdb-categories`.`Name` AS `Name`,`cozdb_users`.`username` AS `username` from ((`cozdb-post` join `cozdb-categories`) join `cozdb_users`) where ((`cozdb-post`.`categoryID` = `cozdb-categories`.`id`) and (`cozdb-post`.`author-user` = `cozdb_users`.`id`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `post_view` AS select `cozdb-post`.`id` AS `id`,`cozdb-post`.`postTitle` AS `postTitle`,`cozdb-post`.`post` AS `post`,`cozdb-post`.`img` AS `img`,`cozdb-post`.`date` AS `date`,`cozdb-post`.`status` AS `status`,`cozdb-post`.`tags` AS `tags`,`cozdb_users`.`username` AS `username`,`cozdb-categories`.`Name` AS `Name`,count(`cozdb-comments`.`comment`) AS `no_comments` from (((`cozdb-post` left join `cozdb-comments` on((`cozdb-post`.`id` = `cozdb-comments`.`cozdb-post_id`))) join `cozdb-categories` on((`cozdb-post`.`categoryID` = `cozdb-categories`.`id`))) join `cozdb_users` on((`cozdb-post`.`author_id` = `cozdb_users`.`id`))) group by `cozdb-post`.`post`;
 
 -- --------------------------------------------------------
 
@@ -352,7 +373,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `title_episode_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `title_episode_view` AS select `cozdb-storytitle`.`id` AS `id`,`cozdb-storytitle`.`title` AS `title`,`cozdb_users`.`username` AS `username`,count(`cozdb-storyepisode`.`story`) AS `total_episode` from ((`cozdb-storytitle` join `cozdb_users`) join `cozdb-storyepisode`) where ((`cozdb-storytitle`.`author` = `cozdb_users`.`id`) and (`cozdb-storytitle`.`id` = `cozdb-storyepisode`.`titleID`)) group by `cozdb-storytitle`.`title`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `title_episode_view` AS select `cozdb-storytitle`.`id` AS `id`,`cozdb_users`.`username` AS `username`,`cozdb-storytitle`.`title` AS `title`,count(`cozdb-storyepisode`.`story`) AS `total_episode` from ((`cozdb-storytitle` left join `cozdb-storyepisode` on((`cozdb-storytitle`.`id` = `cozdb-storyepisode`.`titleID`))) join `cozdb_users` on((`cozdb_users`.`id` = `cozdb-storytitle`.`author`))) group by `cozdb-storytitle`.`title`;
 
 -- --------------------------------------------------------
 
@@ -379,22 +400,23 @@ ALTER TABLE `cozdb-categories`
 -- Indexes for table `cozdb-comments`
 --
 ALTER TABLE `cozdb-comments`
-  ADD PRIMARY KEY (`postID`);
+  ADD PRIMARY KEY (`cozdb-post_id`);
 
 --
 -- Indexes for table `cozdb-post`
 --
 ALTER TABLE `cozdb-post`
-  ADD PRIMARY KEY (`id`,`author-user`,`categoryID`),
+  ADD PRIMARY KEY (`id`,`categoryID`,`author_id`),
   ADD UNIQUE KEY `id_UNIQUE` (`id`),
-  ADD KEY `fk_cozdb-post_cozdb-users_idx` (`author-user`),
-  ADD KEY `fk_cozdb-post_cozdb-categories1_idx` (`categoryID`);
+  ADD KEY `fk_cozdb-post_cozdb-categories1_idx` (`categoryID`),
+  ADD KEY `fk_cozdb-post_cozdb_users1_idx` (`author_id`);
 
 --
 -- Indexes for table `cozdb-quotes`
 --
 ALTER TABLE `cozdb-quotes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`,`quote_author`),
+  ADD KEY `fk_cozdb-quotes_quote_author1_idx` (`quote_author`);
 
 --
 -- Indexes for table `cozdb-storyepisode`
@@ -408,20 +430,14 @@ ALTER TABLE `cozdb-storyepisode`
 -- Indexes for table `cozdb-storytitle`
 --
 ALTER TABLE `cozdb-storytitle`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`,`author`),
+  ADD KEY `fk_cozdb-storytitle_cozdb_users1_idx` (`author`);
 
 --
 -- Indexes for table `cozdb_mailing`
 --
 ALTER TABLE `cozdb_mailing`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cozdb_subscribers`
---
-ALTER TABLE `cozdb_subscribers`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_UNIQUE` (`email`);
 
 --
 -- Indexes for table `cozdb_users`
@@ -445,17 +461,22 @@ ALTER TABLE `quote_author`
 -- AUTO_INCREMENT for table `cozdb-categories`
 --
 ALTER TABLE `cozdb-categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `cozdb-quotes`
+--
+ALTER TABLE `cozdb-quotes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `cozdb-storytitle`
+--
+ALTER TABLE `cozdb-storytitle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `cozdb_mailing`
 --
 ALTER TABLE `cozdb_mailing`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `cozdb_subscribers`
---
-ALTER TABLE `cozdb_subscribers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cozdb_users`
 --
@@ -465,7 +486,7 @@ ALTER TABLE `cozdb_users`
 -- AUTO_INCREMENT for table `quote_author`
 --
 ALTER TABLE `quote_author`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -474,20 +495,26 @@ ALTER TABLE `quote_author`
 -- Constraints for table `cozdb-comments`
 --
 ALTER TABLE `cozdb-comments`
-  ADD CONSTRAINT `fk_cozdb-comments_cozdb-post1` FOREIGN KEY (`postID`) REFERENCES `cozdb-post` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_cozdb-comments_cozdb-post1` FOREIGN KEY (`cozdb-post_id`) REFERENCES `cozdb-post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cozdb-post`
 --
 ALTER TABLE `cozdb-post`
-  ADD CONSTRAINT `fk_cozdb-post_cozdb-categories1` FOREIGN KEY (`categoryID`) REFERENCES `cozdb-categories` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_cozdb-post_cozdb-users` FOREIGN KEY (`author-user`) REFERENCES `cozdb_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_cozdb-post_cozdb-categories1` FOREIGN KEY (`categoryID`) REFERENCES `cozdb-categories` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cozdb-post_cozdb_users1` FOREIGN KEY (`author_id`) REFERENCES `cozdb_users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cozdb-quotes`
+--
+ALTER TABLE `cozdb-quotes`
+  ADD CONSTRAINT `fk_cozdb-quotes_quote_author1` FOREIGN KEY (`quote_author`) REFERENCES `quote_author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cozdb-storyepisode`
 --
 ALTER TABLE `cozdb-storyepisode`
-  ADD CONSTRAINT `fk_cozdb-storyEpisode_cozdb-storyTitle1` FOREIGN KEY (`titleID`) REFERENCES `cozdb-storytitle` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `title_fk` FOREIGN KEY (`titleID`) REFERENCES `cozdb-storytitle` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
