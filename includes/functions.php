@@ -34,6 +34,7 @@ if (isset($_GET['job'])) {
             $job == 'delete_category'   ||
             $job == 'get_category'      ||
             $job == 'get_categories'    ||
+            $job == 'blog_view'         ||
             $job == 'view_subscribers'  ||
             $job == 'view_titles'       ||
             $job == 'story_titles'      ||
@@ -450,6 +451,7 @@ $query = "SELECT * FROM post_view";
                 $mysql_data[] = array(
                     "id"      => $row['id'],
                     "name" => '<option value="'.$row['id'] . '">' .$row['Name'] .'</option>',
+                    "category" => $row['Name'],
                     "i"    => $i
                 );
             }
@@ -677,6 +679,9 @@ elseif($job == 'view_quotes') {
 //--------------manage quotes functions begins
         $query = "SELECT * FROM quote_view";
         $select_all_quotes = mysqli_query($con, $query);
+        $quote2 = "SELECT COUNT(`quote`) as 'numbers' FROM quote_view";
+        $quote_no = mysqli_query($con, $quote2);
+        $num = mysqli_fetch_assoc($quote_no);
         if (!$select_all_quotes) {
             $result = 'error';
             $message = 'query error';
@@ -693,6 +698,7 @@ elseif($job == 'view_quotes') {
                     "quote" => $row['quote'],
                     "author" => $row['author_name'],
                     "year" => $row['year'],
+                    "no_of_quotes" => $num['numbers'],
                     "functions" => $functions
                 );
             }
@@ -909,6 +915,69 @@ elseif($job == 'view_quotes') {
                     "nQuotes"       => $nQuotes,
                     "nTitles"       => $nTitles
                 );
+        }
+    }
+
+
+//post jobs
+ elseif ($job == 'blog_view') {
+
+$query = "SELECT * FROM post_view";
+        $select_all_post = mysqli_query($con, $query);
+        if (!$select_all_post) {
+            $result = 'error';
+            $message = 'query error';
+        } else {
+            $result = 'success';
+            $message = 'query success';
+            while ($row = mysqli_fetch_assoc($select_all_post)) {
+
+                $post = substr($row['post'], 0, 210). "...";
+                $status = '';
+                if($row['status'] == '1') {
+                    $status = 'Published';
+                } else {
+                    $status = 'Draft';
+                };
+
+                $comments = '';
+                if ($row['no_comments'] == 0 ) {
+                    $comments = 'No comments';
+                } elseif ($row['no_comments'] == 1) {
+                    $comments = $row['no_comments'] .' comment';
+                } else {
+                    $comments = $row['no_comments'] .' comments';
+                };
+
+                $blog_frontpage  = '<div class="blog-item" >';
+                $blog_frontpage .= '<img class="img-responsive img-blog" src="images/blog/blog1.jpg" width="100%" alt="" />';
+                $blog_frontpage .= '<div class="blog-content"><a href="blog-item.html"><h3>' .$row['postTitle']. '</h3></a>';
+                $blog_frontpage .= '<div class="entry-meta">'; 
+                $blog_frontpage .= '<span><i class="icon-user"></i> <a href="#">'. $row['username']. '</a></span>';
+                $blog_frontpage .= '<span><i class="icon-folder-close"></i> <a href="#">' .$row['Name'] .'</a></span>';
+                $blog_frontpage .= '<span><i class="icon-calendar"></i> ' .$row['date'].'</span>';
+                $blog_frontpage .= '<span><i class="icon-comment"></i> <a href="blog-item.html#comments">' .$comments .'</a></span></div>';
+                $blog_frontpage .= '<p>' .$post .'</p>';
+                $blog_frontpage .= '</p><a class="btn btn-default" href="blog-item.html"> Read More <i class="icon-angle-right"></i></a>';
+                $blog_frontpage .= '</div></div>';
+
+               
+                $mysql_data[] = array(
+                    "blog_view" => $blog_frontpage
+
+                   /* "id" => $row['id'],
+                    "title" => $row['postTitle'],
+                    "author" => $row['username'],
+                    "category" => $row['Name'],
+                    "post"=> $post,
+                    "img" => $row['img'],
+                    "date" => $row['date'],
+                    "status" => $status,
+                    "tags" => $row['tags'],
+                    "comments" => $comments,
+                    "functions" => $functions */
+                );
+            }
         }
     }
 

@@ -1283,9 +1283,6 @@ $(document).on('click', '#add_category', function(e){
 
 
     ///////////////////////////////////////////////index page data ///////////////////////////////////////////////
-
-
-
   /*  <div class="blog-item">
                         <img class="img-responsive img-blog" src="images/blog/blog1.jpg" width="100%" alt="" />
                         <div class="blog-content">
@@ -1303,4 +1300,5 @@ $(document).on('click', '#add_category', function(e){
 
 
 */
+
 });

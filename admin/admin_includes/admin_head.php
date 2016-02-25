@@ -17,6 +17,7 @@ include '../includes/db-connect.php';
         <link href="../css/easyeditor.css" rel="stylesheet" type="text/css"/>
         <link href="../css/easyeditor-modal.css" rel="stylesheet" type="text/css"/>
         <link href="../css/layout.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/sweetalert.css">
         <link href="../css/main.css" rel="stylesheet">
         <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>

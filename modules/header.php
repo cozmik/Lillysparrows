@@ -47,11 +47,8 @@
                     <li><a href="index.php">Home</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories <i class="icon-angle-down"></i></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dCategories">
                         	<!-- load category list with php -->
-                            <li><a href="blog-item.php">Fully Devoted</a></li>
-                            <li><a href="categoryname2.php">Fully Devoted</a></li> 
-                            <li><a href="categoryname3.php">Fully Devoted</a></li> 
                         </ul>
                     </li>
                     <li><a href="about-us.php">About Lillysparrows</a></li>

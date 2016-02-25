@@ -16,6 +16,7 @@
     <script src="../js/jquery.easyeditor.js" type="text/javascript"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
     <script src="../js/jquery.ajaxform.js" type="text/javascript"></script>
+    <script src="../js/sweetalert.min.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/data.js"></script>
 </body>

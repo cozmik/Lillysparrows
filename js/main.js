@@ -4,11 +4,100 @@ jQuery(function($) {
 	//#main-slider
 	$(function(){
 		$('#main-slider.carousel').carousel({
-			interval: 8000
+			interval: 15000
 		});
                 
                
 	});
+/////////////////////////////populate posts//////////////////////////////////////////////////
+ var mypost = function() {
+         var request = $.ajax({
+            url: 'includes/functions.php?job=blog_view',
+            cache: false,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            type: 'get'
+        });
+          
+         request.done(function (output) {
+            
+        if (output.result === 'success') {
+       var n = 3;
+       for (var i=0; i<n; i++) {
+       $('.blog').prepend(output.data[i].blog_view);
+   }
+   } else {
+                console.log('failed');
+            }
+
+        });
+}
+
+
+/////////////////////////////////populate categories////////////////////////////////////////////
+var categories = function() {
+var request = $.ajax({
+            url: 'includes/functions.php?job=get_categories',
+            cache: false,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            type: 'get'
+        });
+         request.done(function (output) {
+           $('#dCategories').empty();
+            if (output.result === 'success') {
+                 var n = output.data[0].i;
+            for (var i = 0; i < n; i++) {
+                $('.dCategories').append('<li><a href="' + output.data[i].category +'.php">'+ output.data[i].category +'</a></li>');
+                }
+            } else {
+                show_message('Information request failed', 'error');
+            }
+
+        });
+        request.fail(function (jqXHR, textStatus) {
+            hide_loading_message();
+            show_message('Information request failed: ' + textStatus, 'error');
+        })
+}
+
+//////////////////////////////////////////////////////////populate quotes////////////////////////////////////////
+var dQuote = function() {
+	var request = $.ajax({
+            url: 'includes/functions.php?job=view_quotes',
+            cache: false,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            type: 'get'
+      });
+         request.done(function (output) {
+            if (output.result === 'success') {
+                 var n = output.data[0].no_of_quotes;
+            for (var i = 0; i < n; i++) {
+            	var quotes = ' <div class="item"><div class="container"><div class="row"> <div class="col-sm-12">'
+                 	 quotes += '<div class="carousel-content centered" style="padding: 10px;">';
+                 	 quotes += ' <h2 class="animation animated-item-1"> ';
+                 	 quotes += output.data[i].author + ' <small>(';
+                 	 quotes += output.data[i].year + ')</small></h2>';
+                 	 quotes +=  '<p class="animation animated-item-2">' + output.data[i].quote + '</p>';
+                 	 quotes += ' </div></div></div></div></div>';
+
+                
+                $('.dslideshow').append(quotes);
+                
+            	}
+            } else {
+                show_message('Information request failed', 'error');
+            }
+            
+            var active = anyRan(0, n);
+            $('.dslideshow').find('.item').eq(active).addClass('active'); 
+        });
+}
+dQuote();
+categories();
+mypost();
+
 
 $(document).on('click', '.new_author', function(e) {
 	$('.form_author').slideDown().next('.form_quote').slideUp(function() {
@@ -171,3 +260,9 @@ function htmlbodyHeightUpdate(){
 		}
 		
 	};
+
+
+var anyRan = function(min, max) {
+	var randomN = Math.floor(Math.random()* (max - min + 1) + min);
+	return randomN;
+}
