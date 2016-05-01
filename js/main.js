@@ -1,10 +1,77 @@
 jQuery(function($){
+var loadedCat = {};
+ var storyLinks = {};
+var loadedPosts = {};
 
-  $(window).on('hashchange', function(){
-    var loadedStories = {};
-     var storyLinks = {};
-    var loadedPosts = {};
-    var loadedCat = {};
+categoryLinks();
+    postLinks();
+    storiesLinks();
+$(window).on('hashchange', function(){ 
+        
+    var hashChange = window.location.hash;
+    loadPage(hashChange);
+    
+    function loadPage(hashChange){
+    
+    var story = storyLinks;
+    var cats = loadedCat;
+    var dPosts = loadedPosts;
+    function pagerNo(hash){
+       var number = hash.slice(-1);
+       return number;
+    }
+    
+    var n = pagerNo(hashChange);
+    var splitUrl = hashChange.split('/');
+    var newLink = splitUrl[0]+'/'+splitUrl[1];
+    
+    if(cats[hashChange] !== undefined){
+    var clicked = cats[hashChange];
+    catPost(5,0,"",hashChange.substring(2),clicked);
+    //paginationButtonInteract(".skipButton", 3, 'active', "categories");
+    }else if(cats[newLink] !== undefined){
+    var clicked = cats[newLink];
+    catPost(5,(n-1)*3,"",newLink.substring(2),clicked);
+    //paginationButtonInteract(".skipButton", 3, 'active', "categories");
+    }
+    else if(dPosts[hashChange] !== undefined) {
+        var clicked = dPosts[hashChange];
+        singlePost(clicked);
+    }else if(story[hashChange] !== undefined) {
+        var clicked = story[hashChange];
+        storySingle(clicked);
+    }else if(hashChange === "") {
+        mypost(3,0,"", "home");
+        //paginationButtonInteract(".skipButton", 3, 'active', "home");
+    }else {
+    switch (hashChange) {
+        
+        case '#/home/page'+n:
+            mypost(3,(n-1)*3,"", "home");
+            //paginationButtonInteract(".skipButton", 3, 'active', "home");
+            break;
+        case '#/stories/page'+ n:
+            stories(3,(n-1)*3, "", "stories");
+            liCheck();
+            //paginationButtonInteract(".skipButton", 3, 'active', "stories");
+            break;
+        case '#/stories':
+            stories(3,0, "", "stories");
+            liCheck();
+            //paginationButtonInteract(".skipButton", 3, 'active', "stories");
+            break;
+        default:
+            mypost(3,0,"", "home");
+            //paginationButtonInteract(".skipButton", 3, 'active', "home");
+            break;
+    }
+}
+}
+    
+}).trigger('hashchange');
+
+
+function categoryLinks(){
     var request = $.ajax({
             url: 'includes/functions.php?job=get_categories',
             cache: false,
@@ -20,7 +87,7 @@ jQuery(function($){
                  var n = output.data[0].i;
             for (var i = 0; i < n; i++) {
                 var catLink = replaceSpace(output.data[i].category);
-                loadedCategories += '<li id="' + output.data[i].id + '" class="dbcat"><a href="#categories/'+ catLink +'">'+ output.data[i].category +'</a></li>';
+                loadedCategories += '<li id="' + output.data[i].id + '" class="dbcat"><a href="#/'+ catLink +'">'+ output.data[i].category +'</a></li>';
                 }
                 $.each($(loadedCategories), function(){
                   loadedCat[$(this).find('a').attr('href')] = $(this).attr('id'); 
@@ -30,7 +97,9 @@ jQuery(function($){
                 show_message('Information request failed', 'error');
             }
         });
-        
+    }
+    
+    function postLinks() {
         var request2 = $.ajax({
             url: 'includes/functions.php?job=blog_links',
             cache: false,
@@ -55,8 +124,10 @@ jQuery(function($){
                 show_message('Information request failed', 'error');
             }
         });
-        
-        
+    }
+    
+    
+    function storiesLinks() {
         var request3 = $.ajax({
             url: 'includes/functions.php?job=story_links',
             cache: false,
@@ -80,52 +151,9 @@ jQuery(function($){
                 show_message('Information request failed', 'error');
             }
         });
-        
-    var hashChange = window.location.hash;
-    loadPage(hashChange);
-    
-    function loadPage(hashChange){
-    
-    var story = storyLinks;
-    var cats = loadedCat;
-    var dPosts = loadedPosts;
-
-    if(cats[hashChange] !== undefined){
-    var clicked = cats[hashChange];
-    catPost(5,0,"","categories",clicked);
-    paginationButtonInteract(".skipButton", 3, 'active', "categories");
-    } else if(dPosts[hashChange] !== undefined) {
-        var clicked = dPosts[hashChange];
-        singlePost(clicked);
-    }else if(story[hashChange] !== undefined) {
-        var clicked = story[hashChange];
-        storySingle(clicked);
-    }else if(hashChange === "") {
-        mypost(3,0,"", "home");
-        paginationButtonInteract(".skipButton", 3, 'active', "home");
-    }else {
-    switch (hashChange) {
-        case '#home':
-            mypost(3,0,"", "home");
-            paginationButtonInteract(".skipButton", 3, 'active', "home");
-            break;
-        case '#stories':
-            stories(10, 0, "", "stories");
-            paginationButtonInteract(".skipButton", 3, 'active', "stories");
-            break;
-        default:
-            mypost(3,0,"", "home");
-            paginationButtonInteract(".skipButton", 3, 'active', "home");
-            break;
     }
-}
-}
-    
-}).trigger('hashchange');
-
     //#main-slider
-//mypost(3,0,"", "home");
-//paginationButtonInteract(".skipButton", 3, 'active', "home");
+
 categories();
 dQuote();
 wCategories();
@@ -155,7 +183,7 @@ $(document).on('click', '.postTitle', function(e) {
 ////////////////////////////////////////////story function engine///////////////////////////////////////////
 function stories(p, off, active, diff) {
         var request = $.ajax({
-            url: 'includes/functions.php?job=front_title',
+            url: 'includes/functions.php?job=front_title&totalRecord='+p+'&offset='+off,
             cache: false,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -165,7 +193,7 @@ function stories(p, off, active, diff) {
         request.done(function (output) {
 
             if (output.result === 'success') {
-       //pagination(output, p, active, diff);
+       pagination(output, p, active, diff);
       
       $('.blog').empty();
        for (var i=0; i<p; i++) {
@@ -198,63 +226,66 @@ function stories(p, off, active, diff) {
         var blogPosts = output.data[i].blog_view;    
        $(".blog").append(blogPosts);
     }
+    
         }else {
                 console.log('failed');
             }
         });
+    request.success(function(){
+        liCheck();
+    });
 }     
    
-   function paginationButtonInteract(pages, p, clicker, diff){
-    $(document).off('click', pages).on('click', pages, function(e){
-    e.preventDefault();
- 
-    console.log(diff);
-        if($(this).parent().hasClass("stories")) {
-   if($(this).hasClass('d_pages')){
-     clicker = parseInt($(this).data('page'));
-    }
-    else if($(this).hasClass('Forward')){
-       var selected = $('.stories').find('.active');
-       clicker = parseInt(selected.data('page'))+ 1;
-       
-    } else if($(this).hasClass('Back')){
-        var selected = $('.stories').find('.active');
-       clicker = parseInt(selected.data('page'))- 1;
-    }
-    var off = clicker * p;
-    stories(p, off, clicker, diff);
-    
-    } else if ($(this).parent().hasClass("home")) {
-    if($(this).hasClass('d_pages')){
-     clicker = parseInt($(this).data('page'));
-    }
-    else if($(this).hasClass('Forward')){
-       var selected = $(this).parent().find('.active');
-       clicker = parseInt(selected.data('page'))+ 1;
-       
-    } else if($(this).hasClass('Back')){
-        var selected = $(this).parent().find('.active');
-       clicker = parseInt(selected.data('page'))- 1;
-    }
-    var off = clicker * p;
-    mypost(p, off, clicker, diff);
-    } else if ($(this).parent().hasClass("categories")) {
-    if($(this).hasClass('d_pages')){
-     clicker = parseInt($(this).data('page'));
-    }
-    else if($(this).hasClass('Forward')){
-       var selected = $(this).parent().find('.active');
-       clicker = parseInt(selected.data('page'))+ 1;
-       
-    } else if($(this).hasClass('Back')){
-        var selected = $(this).parent().find('.active');
-       clicker = parseInt(selected.data('page'))- 1;
-    }
-    var off = clicker * p;
-    catPost(p, off, clicker, diff);
-    }
-    });
- }
+//   function paginationButtonInteract(pages, p, clicker, diff){
+//    $(document).off('click', pages).on('click', pages, function(){
+//    
+//    
+//        if($(this).parent().hasClass("stories")) {
+//   if($(this).hasClass('d_pages')){
+//     clicker = parseInt($(this).data('page'));
+//    }
+//    else if($(this).hasClass('Forward')){
+//       var selected = $('.stories').find('.active');
+//       clicker = parseInt(selected.data('page'))+ 1;
+//       
+//    } else if($(this).hasClass('Back')){
+//        var selected = $('.stories').find('.active');
+//       clicker = parseInt(selected.data('page'))- 1;
+//    }
+//    var off = clicker * p;
+//    stories(p, off, clicker, diff);
+//    
+//    } else if ($(this).parent().hasClass("home")) {
+//    if($(this).hasClass('d_pages')){
+//     clicker = parseInt($(this).data('page'));
+//    }
+//    else if($(this).hasClass('Forward')){
+//       var selected = $(this).parent().find('.active');
+//       clicker = parseInt(selected.data('page'))+ 1;
+//       
+//    } else if($(this).hasClass('Back')){
+//        var selected = $(this).parent().find('.active');
+//       clicker = parseInt(selected.data('page'))- 1;
+//    }
+//    var off = clicker * p;
+//    mypost(p, off, clicker, diff);
+//    } else if ($(this).parent().hasClass("categories")) {
+//    if($(this).hasClass('d_pages')){
+//     clicker = parseInt($(this).data('page'));
+//    }
+//    else if($(this).hasClass('Forward')){
+//       var selected = $(this).parent().find('.active');
+//       clicker = parseInt(selected.data('page'))+ 1;
+//       
+//    } else if($(this).hasClass('Back')){
+//        var selected = $(this).parent().find('.active');
+//       clicker = parseInt(selected.data('page'))- 1;
+//    }
+//    var off = clicker * p;
+//    catPost(p, off, clicker, diff);
+//    }
+//    });
+// }
 
 
     function storySingle(clicked) {
@@ -302,7 +333,7 @@ function pagination(output, p, active, diff) {
                 + '<li class="Back skipButton"><a href="previousPage"><i class="icon-angle-left"></a></i></li>';
 
         for (liNo; liNo < page_no; liNo++) {
-            pageLi += '<li data-page="' + liNo + '" class="d_pages skipButton"><a href="#'+diff+'/page' + (liNo + 1) + '">' + (liNo + 1) + '</a></li>';
+            pageLi += '<li data-page="' + liNo + '" class="d_pages skipButton"><a href="#/'+diff+'/page' + (liNo + 1) + '">' + (liNo + 1) + '</a></li>';
         }
 
         pageLi += '<li class="Forward skipButton"><a href="nextPage"><i class="icon-angle-right"></i></a></li></ul><!--/.pagination-->';
@@ -352,7 +383,7 @@ var request = $.ajax({
                  var n = output.data[0].i;
             for (var i = 0; i < n; i++) {
                 var catLink = replaceSpace(output.data[i].category);
-                $('.dCategories').append('<li id="' + output.data[i].id + '" class="dbcat"><a href="#categories/'+ catLink +'">'+ output.data[i].category +'</a></li>');
+                $('.dCategories').append('<li id="' + output.data[i].id + '" class="dbcat"><a href="#/'+ catLink +'">'+ output.data[i].category +'</a></li>');
                 }
             } else {
                 show_message('Information request failed', 'error');
@@ -474,9 +505,9 @@ var request = $.ajax({
                     var catLink = replaceSpace(cat);
                 if(i > 1 && i%5 === 0) {
                   
-                    $('.widget.categories .row').append('</ul></div><div class="col-sm-6"><ul class="arrow"><li><a href="categories#'+catLink+'">'+ cat +'</a></li>');
+                    $('.widget.categories .row').append('</ul></div><div class="col-sm-6"><ul class="arrow"><li><a href="#/'+catLink+'">'+ cat +'</a></li>');
                 } else {
-                    $('.widget.categories .arrow').append('<li><a href="#categories/'+catLink +'">'+ cat +'</a></li>');
+                    $('.widget.categories .arrow').append('<li><a href="#/'+catLink +'">'+ cat +'</a></li>');
                 }
               
             } 
