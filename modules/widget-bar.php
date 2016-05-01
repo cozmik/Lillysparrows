@@ -34,24 +34,7 @@
                 <div class="widget categories">
                     <h3>Blog Categories</h3>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="arrow">
-                                <li><a href="#">Development</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">Updates</a></li>
-                                <li><a href="#">Tutorial</a></li>
-                                <li><a href="#">News</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="arrow">
-                                <li><a href="#">Joomla</a></li>
-                                <li><a href="#">Wordpress</a></li>
-                                <li><a href="#">Drupal</a></li>
-                                <li><a href="#">Magento</a></li>
-                                <li><a href="#">Bootstrap</a></li>
-                            </ul>
-                        </div>
+                       <!--/load categories-->
                     </div>                     
                 </div><!--/.categories-->
                 <div class="widget tags">
@@ -68,10 +51,10 @@
                         <li><a class="btn btn-xs btn-primary" href="#">Update</a></li>
                     </ul>
                 </div><!--/.tags-->
-
+               
                 <div class="widget facebook-fanpage">
                     <h3>Facebook Fanpage</h3>
                     <div class="widget-content">
-                        <div class="fb-like-box" data-href="https://www.facebook.com/shapebootstrap" data-width="292" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                        <div class="fb-like-box" data-href="https://www.facebook.com/lillysparrows" data-width="292" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
                     </div>
                 </div>

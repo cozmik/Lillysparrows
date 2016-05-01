@@ -3,16 +3,14 @@ include './admin_includes/menu.php';
 ?>
 
   <div style="background:white; padding-top:85px; padding-bottom: 4px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-11 tile">
-          <div class="panel panel-default">
+    <div id="page_container" class="container">
+     
     <!-- Default panel contents -->
-    <div class="panel-heading"><h3>Subscribers List</h3></div>
+    <h3>Subscribers List</h3>
     
     
     <!-- Table -->
-   <div class="container">
+   
 	<div class="row">
 		
         
@@ -20,7 +18,7 @@ include './admin_includes/menu.php';
         <div class="table-responsive">
 
                 
-              <table id="subscriber_table" class="table table-bordred table-striped">
+              <table id="subscriber_table" class="datatable table-bordered table-striped">
                    
                    <thead>
                    
@@ -40,22 +38,17 @@ include './admin_includes/menu.php';
     </tbody>
         
 </table>
-
+</div>
+         </div>   
+        </div>
 <div class="clearfix"></div>
                 
-            </div>
-            
-        </div>
-	</div>
-</div>
+
    
-      </div>
-    </div>
-  </div>
     </div>
         <div class="container">
       <div class="row">
-        <div class="col-lg-11 tile">
+        <div class="col-lg-12 tile">
           <div class="panel panel-info">
               <div class="panel-heading"><h5>Admins Level Info</h5></div>
               <p style="padding: 10px;">

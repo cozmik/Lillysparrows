@@ -4,7 +4,7 @@ include './admin_includes/menu.php';
 ?>
   
   
- <div class="container">
+ <div id="page-container" class="container">
 <div style="padding-top:120px;">
 </div>
 <div style="padding-bottom: 4px; margin-left: 5%;">
@@ -27,12 +27,11 @@ include './admin_includes/menu.php';
                         }
                     </style>
 
-                    <div class="container">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
 
-                                    <table id="title_table" class="table table-bordred table-striped" style="font-size: 0.90em;">
+                                    <table id="title_table" class="datatable table-bordered table-striped" style="font-size: 0.90em;">
 
                                         <thead>
                                         <th>Index</th>
@@ -48,7 +47,7 @@ include './admin_includes/menu.php';
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                       
                     </div>
 
                     <div class="clearfix"></div>
@@ -65,6 +64,15 @@ include './admin_includes/menu.php';
     <div class="lightbox_content">
 
         <h2>Add title</h2>
+        <form action="" id="postPix">
+            <div class="input_container form-group">
+            <label for="image" class="control-label">Title Picture: </label>
+            <div class="field_container">
+            <input type="file" class="form-control postPix" name="image" placeholder="upload picture...">
+            </div>
+            </div>
+        </form>
+
         <form class="form add" id="title_form" data-id="" novalidate>
             <div class="input_container form-group">
                 <label for="first_name">Title: <span class="required">*</span></label>

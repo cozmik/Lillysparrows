@@ -7,7 +7,7 @@ include './admin_includes/menu.php';
 
     <h1>Lillysparrows Admins</h1>
 
-    <table id="mytable" class="datatable table-bordered table-striped">
+    <table id="mytable" class="datatable table-bordered table-striped adminTable">
 
         <thead>
         <th>Full Name</th>
@@ -91,7 +91,11 @@ include './admin_includes/menu.php';
             <div class="input_container form-group">
                 <label for="privilege" >Privilege Level: <span class="required">*</span></label>
                 <div class="field_container">
-                    <input type="text" class="text form-control" name="privilege" id="privilege" value="" required placeholder="privilege">
+                    <select class="text form-control" name="privilege" id="privilege" required placeholder="privilege">
+                        <option value="0">Super admin</option>
+                        <option value="1">Blogger </option>
+                        <option value="2">Story Teller </option>
+                    </select>
                 </div>
             </div>
             

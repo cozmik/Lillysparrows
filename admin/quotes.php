@@ -2,7 +2,7 @@
 include './admin_includes/admin_head.php';
 include './admin_includes/menu.php';
 ?>
-<div class="container">
+<div id="page-container" class="container">
 <div style="padding-top:120px;">
 </div>
 <div style="padding-bottom: 4px; margin-left: 5%;">
@@ -29,12 +29,12 @@ include './admin_includes/menu.php';
                         }
                     </style>
 
-                    <div class="container">
+                    
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
 
-                                    <table id="quote_table" class="table table-bordred table-striped" style="font-size: 0.90em;">
+                                    <table id="quote_table" class="datatable table-bordered table-striped" style="font-size: 0.90em;">
 
                                         <thead>
                                         <th>Index</th>
@@ -50,7 +50,7 @@ include './admin_includes/menu.php';
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                       
                     </div>
 
                     <div class="clearfix"></div>
@@ -68,30 +68,6 @@ include './admin_includes/menu.php';
     <div class="lightbox_content" style="padding-right: 0px; width: 90%;">
 
         <h2 class="dtitle">New Quote</h2>
-        <div class="form_author">
-       <form class="form add" id="new_author" data-id="" novalidate >
-       
-
-             <div class="input_container">
-            <label for="name">New author: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text" class="text" name="name" id="name" value="" required placeholder="Author name">
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="year">Year: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text" class="text" name="year" id="year" value="" required placeholder="1900 - 1989">
-            </div>
-          </div>
-
-             <div class="button_container form-group">
-                <button type="submit" class="btn btn-success newAuthor">Add Author</button>  <button type="button" class="btn btn-danger cancle">Cancle</button>
-            </div>
-
-        </form>
-        </div>
-
         <div class="form_quote">
         <form class="form add" id="quote_form" data-id="" novalidate >
 
@@ -107,12 +83,9 @@ include './admin_includes/menu.php';
                 <label for="quote_author">By: <span class="required">*</span></label>
                  
                 <div class="form-control" style="display: inline-block; width: 49%;">
-
                     <select type="text" name="quote_author" id="quote_author" value="" style="width: 100%;" required>
                     </select>
                 </div>
-               
-                <button type="button" class="btn btn-primary pull-right new_author">New Author</button> 
             </div>
             <div class="pull-right submitbtn">
                 <button type="submit" class="btn btn-success btn-lg">Add Quote</button>

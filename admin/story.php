@@ -22,7 +22,7 @@ include './admin_includes/menu.php';
                                                 <!-- Drop down of all Titles --> 
                                                 <div class="" style="display:inline-block; font-size:15px; width:100%"> <label class="sr-only"><h4>Sort by:</h4></label>
 
-                                                    <select class="form-control" id="select_title"> 
+                                                    <select class="form-control" id="select_title" name="story_title"> 
                                                        
                                                     </select>
 
@@ -31,20 +31,15 @@ include './admin_includes/menu.php';
 
                                             <div class="form-group">
                                                 <label for="title" class="control-label sr-only">Episode Title</label>
-                                                <input type="text" id="story_title" class="form-control" placeholder="Enter Episode title...">
+                                                <input type="text" id="episode_title" name="episode_title" class="form-control" placeholder="Enter Episode title...">
                                             </div>
                                             <div class="form-group">
                                                 <label for="post" class="control-label sr-only">Story body</label>
-                                                <textarea name="description" id="story_body" class="form-control storyPost" rows="10" placeholder="Enter story body..."></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="title" class="control-label sr-only">Episode Title</label>
-                                                <input type="file" id="postPix" class="form-control" placeholder="upload picture...">
+                                                <textarea name="episode_body" id="story_body" class="form-control storyPost" rows="10" placeholder="Enter story body..."></textarea>
                                             </div>
 
-
-                                            <button type="submit" class="btn btn-success storySub">publish story</button>
-                                            <button type="button" class="btn btn-primary storydraft">save as draft</button>
+                                            <button type="submit" id="submit" class="btn btn-success submit">publish story</button>
+                                            <button type="submit" id="submit" class="btn btn-primary draft">save as draft</button>
                                             <button type="reset" class="btn btn-danger pull-right story_cancel">cancel</button>
                                         </form>
 
@@ -75,6 +70,7 @@ include './admin_includes/menu.php';
                                         <th>Title</th>                                                                                                       
                                         <th>Episode</th>
                                         <th>Story</th>
+                                        <th>Status</th>
                                         <th>Function</th>                                                 
                                         </thead>
                                         <tbody>
