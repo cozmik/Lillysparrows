@@ -61,9 +61,10 @@
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.hashchange.js" type="text/javascript"></script>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js" type="text/javascript"></script>
+    <script src="js/sweetalert.min.js" type="text/javascript"></script>
     <script src="js/jquery.bootpag.min.js"></script>
-    <script src="js/jquery.ba-bbq.min.js" type="text/javascript"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

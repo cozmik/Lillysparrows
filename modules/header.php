@@ -10,6 +10,7 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/sweetalert.css">
     <link href="css/main.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -84,15 +85,15 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="index ajaxd"><a href="#home">Home</a></li>
+                    <li class="index ajaxd"><a href="#/home">Home</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories <i class="icon-angle-down"></i></a>
                         <ul class="dropdown-menu dCategories">
                         	<!-- load category list with php -->
                         </ul>
                     </li>
-                    <li class="story ajaxed"><a href="#stories">Stories</a></li>
-                    <li class="aboutUs"><a href="#about-us">About Lillysparrows</a></li>
+                    <li class="story ajaxed"><a href="#/stories">Stories</a></li>
+                    <li class="aboutUs"><a href="#/about-us">About Lillysparrows</a></li>
             
                 </ul>
             </div>

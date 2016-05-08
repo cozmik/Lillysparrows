@@ -14,6 +14,21 @@ function formatDate($dbdate) {
     return $fDate;
 }
 
+function rand_string($length) {
+    $string = '';
+    $length;
+
+    for ($i = 0; $i < $length; $i++) {
+        $rand = mt_rand(97, 132);
+        if ($rand <= 122) {
+            $string .= chr($rand);
+        } else {
+            $string .= (string) ($rand - 122);
+        }
+    }
+    return $string;
+}
+
 function replaceSpace($text) {
     $Text = explode(" ", $text);
     $linkText = implode("-", $Text);
@@ -207,14 +222,22 @@ if ($job != '') {
             $result = 'error';
             $message = 'id missing';
         } else {
+            $check = "update `cozdb-post` SET `author_id`= 1 WHERE `author_id` = '" . mysqli_real_escape_string($con, $id) . "'";
             $query = "DELETE FROM cozdb_users WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
-            $query = mysqli_query($con, $query);
-            if (!$query) {
+
+            $trigger = mysqli_query($con, $check);
+            if (!$trigger) {
                 $result = 'error';
                 $message = 'query error';
             } else {
-                $result = 'success';
-                $message = 'query success';
+                $query = mysqli_query($con, $query);
+                if (!$query) {
+                    $result = 'error';
+                    $message = 'query error';
+                } else {
+                    $result = 'success';
+                    $message = 'query success';
+                }
             }
         }
     } elseif ($job == 'activate_admin') {
@@ -379,14 +402,55 @@ if ($job != '') {
         $date = $_GET['date'];
         $author = $author_id;
 
-        $query = "INSERT INTO `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `date` ='{$date}', `tags` = '{$tags}',  `author_id` = '{$author}'";
-        $query = mysqli_query($con, $query);
+        $query1 = "INSERT INTO `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `date` ='{$date}', `tags` = '{$tags}',  `author_id` = '{$author}'";
+        $query = mysqli_query($con, $query1);
         if (!$query) {
             $result = 'error';
             $message = 'query error';
         } else {
-            $result = 'success';
-            $message = 'query success';
+            if ($status == '1') {
+                $query = "SELECT `email` FROM cozdb_mailing WHERE `confirmed` = '1'";
+                $select_subscribers = mysqli_query($con, $query);
+                if (!$select_subscribers) {
+                    $result = 'error';
+                    $message = 'query error';
+                } else {
+                    while ($row = mysqli_fetch_assoc($select_subscribers)) {
+                        $linkName = replaceSpace($category);
+                        $linkTitle = replaceSpace($title);
+                        $to = $row['email'];
+                        $subject = $title;
+                        $post = substr($body, 0, 210) . "...";
+
+                        $message = '<html><head><title>' . $title . '</title>'
+                                . '<body style= "padding: 0px">'
+                                . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
+                                . '<a href="http://www.lillysparrows.com"><h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></a></header>'
+                                . '<h2 style="text-align:center; color: rgb(159,2,81);">' . $title . '</h2>'
+                                . $post . '<p><a href="www.lillysparrows.com/#/' . $linkName . '/' . $linkTitle . ' style="color:blue;" ">Continue reading </a><br>'
+                                . '<footer style="background-color: rgb(159,2,81);">'
+                                . '<div class="col-sm-12" style="text-align:center;">'
+                                . '<h3><a style="color:rgb(200,200,200);" href="http://www.lillysparrows.com">Lillysparrows</a></h3>'
+                                . '<small style="color:white;">&copy; 2016 Webcontractorz. All Rights Reserved.</small></div>'
+                                . '</footer></body></html>';
+
+
+                        $header = "From:no-reply@lillysparrows.com \r\n";
+                        $header .= "MIME-Version: 1.0\r\n";
+                        $header .= "Content-type: text/html\r\n";
+
+                        $retval = mail($to, $subject, $message, $header);
+
+                        if ($retval == true) {
+                            $result = 'success';
+                            $message = 'query success';
+                        } else {
+                            $result = 'error';
+                            $message = 'could not send mail';
+                        }
+                    }
+                }
+            }
         }
     } elseif ($job == 'edit_post') {
         // Edit admin
@@ -402,17 +466,59 @@ if ($job != '') {
             $status = $_GET['status'];
             $date = $_GET['date'];
 
-            $query = "UPDATE `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `tags` = '{$tags}', `date` ='{$date}'";
-            $query .= "WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
-            $query = mysqli_query($con, $query);
+            $query1 = "UPDATE `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `tags` = '{$tags}', `date` ='{$date}'";
+            $query1 .= "WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
+            $query = mysqli_query($con, $query1);
             if (!$query) {
                 $result = 'error';
                 $message = 'query error';
             } else {
-                $result = 'success';
-                $message = 'query success';
+                
+            if ($status == '1') {
+                $query = "SELECT `email` FROM cozdb_mailing WHERE `confirmed` = '1'";
+                $select_subscribers = mysqli_query($con, $query);
+                if (!$select_subscribers) {
+                    $result = 'error';
+                    $message = 'query error';
+                } else {
+                    while ($row = mysqli_fetch_assoc($select_subscribers)) {
+                        $linkName = replaceSpace($category);
+                        $linkTitle = replaceSpace($title);
+                        $to = $row['email'];
+                        $subject = $title;
+                        $post = substr($body, 0, 210) . "...";
+
+                        $message = '<html><head><title>' . $title . '</title>'
+                                . '<body style= "padding: 0px">'
+                                . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
+                                . '<a href="http://www.lillysparrows.com"><h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></a></header>'
+                                . '<h2 style="text-align:center; color: rgb(159,2,81);">' . $title . '</h2>'
+                                . $post . '<p><a href="www.lillysparrows.com/#/' . $linkName . '/' . $linkTitle . ' style="color:blue;" ">Continue reading </a><br>'
+                                . '<footer style="background-color: rgb(159,2,81);">'
+                                . '<div class="col-sm-12" style="text-align:center;">'
+                                . '<h3><a style="color:rgb(200,200,200);" href="http://www.lillysparrows.com">Lillysparrows</a></h3>'
+                                . '<small style="color:white;">&copy; 2016 Webcontractorz. All Rights Reserved.</small></div>'
+                                . '</footer></body></html>';
+
+
+                        $header = "From:no-reply@lillysparrows.com \r\n";
+                        $header .= "MIME-Version: 1.0\r\n";
+                        $header .= "Content-type: text/html\r\n";
+
+                        $retval = mail($to, $subject, $message, $header);
+
+                        if ($retval == true) {
+                            $result = 'success';
+                            $message = 'query success';
+                        } else {
+                            $result = 'error';
+                            $message = 'could not send mail';
+                        }
+                    }
+                }
             }
         }
+    }
     }
 //other post codes
 //categories jobs
@@ -468,14 +574,23 @@ if ($job != '') {
             $result = 'error';
             $message = 'id missing';
         } else {
+            $check = "update `cozdb-post` set `categoryID` = 1 WHERE `categoryID` = '" . mysqli_real_escape_string($con, $id) . "'";
             $query = "DELETE FROM `cozdb-categories` WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
-            $query = mysqli_query($con, $query);
-            if (!$query) {
+
+            $trigger = mysqli_query($con, $check);
+            if (!$trigger) {
                 $result = 'error';
                 $message = 'query error';
             } else {
-                $result = 'success';
-                $message = 'query success';
+
+                $query = mysqli_query($con, $query);
+                if (!$query) {
+                    $result = 'error';
+                    $message = 'query error';
+                } else {
+                    $result = 'success';
+                    $message = 'query success';
+                }
             }
         }
     } elseif ($job == 'get_category') {
@@ -1164,15 +1279,59 @@ if ($job != '') {
     }
 ////////////////////////////subscribe submit//////////////////////////////////////////////////////////////////
     elseif ($job == 'subscribe') {
+
+        $dater = date_create();
+        $linkDate = date_timestamp_get($dater);
+        $confirm = $linkDate . rand_string(10);
         $email = $_GET['subEmail'];
-        $query = "INSERT INTO `cozdb_mailing` SET email = '{$email}'";
-        $query = mysqli_query($con, $query);
+        $query1 = "INSERT INTO `cozdb_mailing` SET email = '{$email}', confirm_link = '{$confirm}'";
+        $query = mysqli_query($con, $query1);
         if (!$query) {
             $result = 'error';
             $message = 'query error';
         } else {
-            $result = 'success';
-            $message = 'query success';
+            $to = $email;
+            $subject = "Lillysparrows";
+
+            $message = '<html><head><title>Mail Confirmation</title>'
+                    . '<body style= "padding: 0px">'
+                    . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
+                    . '<h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></header>'
+                    . '<div style="font-weight:800"><p>Hi there,</p><p>You are getting this mail because you subscribe to'
+                    . '<a href="http://www.lillysparrows.com" style="color:blue; text-decoration:underline;">Lillysparrows.com</a>.Please click the button below to confirm'
+                    . 'your subscription.</p>'
+                    . '<form action="http://www.lillysparrows.com/confirm/email.php?confirm_link=' . $confirm . '"  style="text-align:center">'
+                    . '<button class="btn btn-large btn-info" style="-webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #3299d1;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;" type="submit">Confirm email</button></form>'
+                    . '<p>Or copy the link below to your browser. <br>'
+                    . '<a href="http://www.lillysparrows.com/confirm/email.php?confirm_link=' . $confirm . '" style="color:blue; text-decoration:underline;">http://www.lillysparrows.com/confirm/email.php?confirm_link=hjdshsddshcbdsb</a></p>'
+                    . '<p>If you are did not subscribe to <a href="http://www.lillysparrows.com">Lillysparrows.com</a>, please ignore this message </p></div>'
+                    . '<footer style="background-color: rgb(159,2,81);">'
+                    . '<div class="col-sm-12" style="text-align:center;">'
+                    . '<h3><a style="color:rgb(200,200,200);" href="http://www.lillysparrows.com">Lillysparrows</a></h3>'
+                    . '<small style="color:white;">&copy; 2016 Webcontractorz. All Rights Reserved.</small></div>'
+                    . '</footer></body></html>';
+
+
+            $header = "From:no-reply@lillysparrows.com \r\n";
+            $header .= "MIME-Version: 1.0\r\n";
+            $header .= "Content-type: text/html\r\n";
+
+            $retval = mail($to, $subject, $message, $header);
+            if ($retval == true) {
+                $result = 'success';
+                $message = 'query success';
+            } else {
+                $result = 'error';
+                $message = 'could not send mail';
+            }
         }
     }
 
@@ -1288,15 +1447,15 @@ if ($job != '') {
 
 
                 $cat_blog = '<div class="blog-item" >';
-                $cat_blog .= '<div class="blog-content"><h3 class="postTitle" data-id=' . $row['id'] . '><a href="#posts/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></h3>';
+                $cat_blog .= '<div class="blog-content"><h3 class="postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></h3>';
                 $cat_blog .= '<img class="img-responsive img-blog" src="' . $row['img'] . '" width="100%" alt="' . $row['postTitle'] . '" />';
                 $cat_blog .= '<div class="entry-meta">';
                 $cat_blog .= '<span><i class="icon-user"></i>' . $row['username'] . '</span>';
-                $cat_blog .= '<span class="dbcat" id=' . $row['catID'] . '><i class="icon-folder-close"></i> <a href="#posts/' . $linkName . '">' . $row['Name'] . '</a></span>';
+                $cat_blog .= '<span class="dbcat" id=' . $row['catID'] . '><i class="icon-folder-close"></i> <a href="#/' . $linkName . '">' . $row['Name'] . '</a></span>';
                 $cat_blog .= '<span><i class="icon-calendar"></i> ' . $formatDate . '</span>';
                 $cat_blog .= '<span><i class="icon-comment"></i>' . $comments . '</span></div>';
                 $cat_blog .= '<p>' . $post . '</p>';
-                $cat_blog .= '</p><a class="btn btn-default postTitle" data-id=' . $row['id'] . ' href="#posts/' . $linkName . '/' . $linkTitle . '"> Read More <i class="icon-angle-right"></i></a>';
+                $cat_blog .= '</p><span class="postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '"> Read More <i class="icon-angle-right"></i></a></span>';
                 $cat_blog .= '</div></div>';
 
                 $mysql_data[] = array(
@@ -1305,9 +1464,7 @@ if ($job != '') {
                 );
             }
         }
-    }
-    
-    elseif ($job == 'blog_links') {
+    } elseif ($job == 'blog_links') {
         $query = "SELECT * FROM post_view WHERE status = 1  ORDER BY `id` ASC";
 
         $select_all_post = mysqli_query($con, $query);
@@ -1321,7 +1478,7 @@ if ($job != '') {
                 $linkName = replaceSpace($row['Name']);
                 $linkTitle = replaceSpace($row['postTitle']);
 
-                $cat_blog = '<h3 class="postTitle" data-id=' . $row['id'] . '><a href="#posts/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></h3>';
+                $cat_blog = '<h3 class="postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></h3>';
 
                 $mysql_data[] = array(
                     "blog_view" => $cat_blog
@@ -1332,6 +1489,9 @@ if ($job != '') {
 
 //     //story titles jobs
     elseif ($job == 'front_title') {
+        $totalRecord = $_GET['totalRecord'];
+        $offset = $_GET['offset'];
+
         $query1 = "SELECT COUNT(`id`) AS 'count' FROM `cozdb-storytitle`";
         $count = mysqli_query($con, $query1);
         $row1 = mysqli_fetch_assoc($count);
@@ -1351,7 +1511,7 @@ if ($job != '') {
                     "image" => ""
                 );
             } else {
-                $query = "SELECT * FROM `cozdb-storytitle` GROUP BY `id` ORDER BY `id` DESC";
+                $query = "SELECT * FROM `cozdb-storytitle` GROUP BY `id` ORDER BY `id` DESC LIMIT " . $totalRecord . " OFFSET " . $offset;
                 $story_title = mysqli_query($con, $query);
 
                 if (!$story_title) {
@@ -1367,7 +1527,7 @@ if ($job != '') {
                         $image = $row['image'];
 
                         $frontTitle = '<div class="blog-item"><h3>' . $storytitle . '</h3>'
-                                . '<img alt="' . $storytitle . '" class="img-responsive img-story" src="' . $image . '" width="100%" alt="" />'
+                                . '<img alt="' . $storytitle . '" class="class="img-responsive img-blog" src="' . $image . '" width="100%" alt="" />'
                                 . '<div class="blog-content"><div class="entry-meta"><h4>Episodes</h4></div>'
                                 . '<div class="well" style="padding-right: 10px; padding-left: 5px; width: 105%;">'
                                 . '<ul class="tag-cloud episodeList">';
@@ -1402,15 +1562,15 @@ if ($job != '') {
                                     while ($row = mysqli_fetch_assoc($episodes)) {
                                         $id = $row['id'];
                                         $title = $row['episodeTitle'];
-                                           
-                                        $episode_link = replaceSpace($storytitle)."/".replaceSpace($title);
+
+                                        $episode_link = replaceSpace($storytitle) . "/" . replaceSpace($title);
                                         if ($i % 20 == 0) {
                                             $frontTitle .= '<li data-title="' . $titleID . '" class="btn btn-sm btn-primary singleEpisode" style="margin: 1px; width: 4.5%;"'
-                                                    . 'data-id="' . $id . '"> <a href="#/story/'.$episode_link. '">' . $i . '</a> </li></ul><ul class="tag-cloud">';
+                                                    . 'data-id="' . $id . '"> <a href="#/story/' . $episode_link . '">' . $i . '</a> </li></ul><ul class="tag-cloud">';
                                         } else {
 
                                             $frontTitle .= '<li data-title="' . $titleID . '" class="btn btn-sm btn-primary singleEpisode" style="margin: 1px; width: 4.5%;"'
-                                                    . 'data-id="' . $id . '"> <a href="#/story/' .$episode_link. '">' . $i . '</a> </li>';
+                                                    . 'data-id="' . $id . '"> <a href="#/story/' . $episode_link . '">' . $i . '</a> </li>';
                                         }
                                         $i = $i + 1;
                                     }
@@ -1426,8 +1586,8 @@ if ($job != '') {
             }
         }
     }
-    
-    
+
+
 
     //story titles jobs
     elseif ($job == 'story_episodes') {
@@ -1477,10 +1637,7 @@ if ($job != '') {
                 }
             }
         }
-    }
-
-    
-     elseif ($job == 'story_links') {
+    } elseif ($job == 'story_links') {
 
         $query = "SELECT * FROM `cozdb-storytitle` GROUP BY `id` ORDER BY `id` DESC";
         $story_title = mysqli_query($con, $query);
@@ -1514,19 +1671,12 @@ if ($job != '') {
                         $episode_link = replaceSpace($storytitle) . "/" . replaceSpace($title);
 
                         $frontTitle .= '<li data-title="' . $titleID . '"data-id="' . $id . '"> <a href=#/story/' . $episode_link . '>' . 'EPISODE' . '</a> </li>';
-                    
-              
                     }
-                    
                 }
                 $mysql_data[] = array(
-                'storyTitle' => $frontTitle
-            );
-                
+                    'storyTitle' => $frontTitle
+                );
             }
-
-
-            
         }
     }
 
@@ -1596,7 +1746,7 @@ if ($job != '') {
                             $cat_blog .= '<span><i class="icon-calendar"></i> ' . $formatDate . '</span>';
                             $cat_blog .= '<span><i class="icon-comment"></i>' . $comments . '</span></div>';
                             $cat_blog .= '<p>' . $post . '</p>';
-                            $cat_blog .= '</p><span class="postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '"> Read More <i class="icon-angle-right"></i></a></span>';
+                            $cat_blog .= '</p><div class="postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '"> Read More <i class="icon-angle-right"></i></a></div>';
                             $cat_blog .= '</div></div>';
 
                             $mysql_data[] = array(
@@ -1644,7 +1794,7 @@ if ($job != '') {
                 $latest_blog = '<div class="media"><div class="pull-left">';
                 $latest_blog .= '<img src="' . $row['img'] . '" alt="' . $row['postTitle'] . '" height=64></div>';
 
-                $latest_blog .= '<div class="media-body"><span class="media-heading postTitle" data-id=' . $row['id'] . '><a href="#posts/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></span>';
+                $latest_blog .= '<div class="media-body"><span class="media-heading postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></span>';
 
                 $latest_blog .= '<small class="muted">Posted ' . $formatDate . '</small></div></div>';
 
