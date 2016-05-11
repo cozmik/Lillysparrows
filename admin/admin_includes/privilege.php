@@ -1,6 +1,4 @@
 <?php
-$admin_level = "0";
-
 print "<script>
 		$('.dashboard').removeClass('hidden');
 	 </script>";

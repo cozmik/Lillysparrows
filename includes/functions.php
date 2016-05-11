@@ -1,8 +1,9 @@
 <?php
-
+session_start();
+$admin_level = $_SESSION['privilege'];
+$author_id = $_SESSION['id'];
 include 'db-connect.php';
-$author_id = 11;
-$admin_level = 0;
+
 
 function formatDate($dbdate) {
     $date = explode("-", $dbdate);
@@ -248,7 +249,7 @@ if ($job != '') {
         } else {
             $status = "active";
             $query1 = "UPDATE cozdb_users SET status = '$status'";
-            $query .= "WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
+            $query1 .= "WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
             $query = mysqli_query($con, $query1);
             if (!$query) {
                 $result = 'error';
@@ -450,6 +451,9 @@ if ($job != '') {
                         }
                     }
                 }
+            } else {
+                $result = 'success';
+                $message = 'query success';
             }
         }
     } elseif ($job == 'edit_post') {
@@ -516,6 +520,9 @@ if ($job != '') {
                         }
                     }
                 }
+            }  else {
+                $result = 'success';
+                $message = 'query success';
             }
         }
     }
@@ -1794,7 +1801,7 @@ if ($job != '') {
                 $latest_blog = '<div class="media"><div class="pull-left">';
                 $latest_blog .= '<img src="' . $row['img'] . '" alt="' . $row['postTitle'] . '" height=64></div>';
 
-                $latest_blog .= '<div class="media-body"><span class="media-heading postTitle" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></span>';
+                $latest_blog .= '<div class="media-body"><span class="media-heading postTitle ajaxd" data-id=' . $row['id'] . '><a href="#/' . $linkName . '/' . $linkTitle . '">' . $row['postTitle'] . '</a></span>';
 
                 $latest_blog .= '<small class="muted">Posted ' . $formatDate . '</small></div></div>';
 

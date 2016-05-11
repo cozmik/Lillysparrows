@@ -2092,7 +2092,7 @@ $(document).on('click', '#add_category', function(e){
                     }, true);
                 } else {
                     hide_loading_message();
-                    show_message('Delete request failed', 'error');
+                    show_message('Activation request failed', 'error');
                 }
             });
             request.fail(function (jqXHR, textStatus) {
@@ -2127,7 +2127,6 @@ $(document).on('click', '#add_category', function(e){
                         $(this).removeClass('btn-danger').addClass('btn-success').children('span').text('unblock');
                         $(this).removeClass('function_block').addClass('function_activate');
                         hide_loading_message();
-                        var username = $('#username').val();
                         show_message(username + " is now suspended.", 'success');
                     }, true);
                 } else {

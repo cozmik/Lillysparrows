@@ -15,8 +15,6 @@
         </a>
     </section> 
 
-
-
     <section id="blog" class="container">
     
         <div class="row">

@@ -165,25 +165,22 @@ jQuery(function ($) {
     postBottom();
 
 /////////////////////////////populate posts//////////////////////////////////////////////////
-    $(document).on('click', '.index', function (e) {
+
+function hashCheck(hash){
+    var url = window.location.href;
+    if(url.match('about-us.php') !== null){
+        console.log(url.match('about-us.php'));
+      window.location.href = 'http://localhost/lillysparrow/lillysparrows/'+hash;  
+    } else{
+        window.location.hash = hash;
+    };
+}
+    $(document).on('click', '.ajaxd', function (e) {
         e.preventDefault();
-        window.location.hash = $(this).find('a').attr('href');
+        var theHash = $(this).find('a').attr('href');
+        hashCheck(theHash);
     });
 
-    $(document).on('click', '.story', function (e) {
-        e.preventDefault();
-        window.location.hash = $(this).find('a').attr('href');
-    });
-
-    $(document).on('click', '.dbcat', function (e) {
-        e.preventDefault();
-        window.location.hash = $(this).find('a').attr('href');
-    });
-
-    $(document).on('click', '.postTitle', function (e) {
-        e.preventDefault();
-        window.location.hash = $(this).find('a').attr('href');
-    });
 
 ////////////////////////////////////////////story function engine///////////////////////////////////////////
     function stories(p, off, diff) {
@@ -366,7 +363,7 @@ jQuery(function ($) {
                 var n = output.data[0].i;
                 for (var i = 0; i < n; i++) {
                     var catLink = replaceSpace(output.data[i].category);
-                    $('.dCategories').append('<li id="' + output.data[i].id + '" class="dbcat"><a href="#/' + catLink + '">' + output.data[i].category + '</a></li>');
+                    $('.dCategories').append('<li id="' + output.data[i].id + '" class="dbcat ajaxd"><a href="#/' + catLink + '">' + output.data[i].category + '</a></li>');
                 }
             } else {
                 show_message('Information request failed', 'error');
