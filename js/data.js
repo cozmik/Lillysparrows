@@ -1217,7 +1217,7 @@ $(document).on('click', '.function_edit_story', function(e){
             if (output.result === 'success') {
 
             var request2 = $.ajax({
-            url: '../includes/functions.php?job=view_story_single',
+            url: '../includes/functions.php?job=get_story',
             cache: false,
             data: 'id=' + id,
             dataType: 'json',
@@ -1232,7 +1232,7 @@ $(document).on('click', '.function_edit_story', function(e){
 
                 request2.done(function(output2) {
                 if(output2.result === 'success') {
-                    if($admin_level == '2') {
+                    if($admin_level === '2') {
                         $('#story_form button.storySub').text('publish story').attr('disabled', 'disabled');
                     }
                 $('#story_form').attr('class', 'form edit');
@@ -1253,7 +1253,7 @@ $(document).on('click', '.function_edit_story', function(e){
                     show_message('Edit error: ' + textStatus, 'error');
                  }
             
-            })
+            });
 
             } else {
                 show_message('Information request failed', 'error');
@@ -1264,7 +1264,7 @@ $(document).on('click', '.function_edit_story', function(e){
             hide_loading_message();
             show_message('Information request failed: ' + textStatus, 'error');
 
-        })
+        });
     
   });
 ////////////////////////////////////////////////story edit submit///////////////////////////////////////////////
@@ -1311,7 +1311,7 @@ $(document).on('submit', '#story_form.edit', function (event) {
                         show_message("Error editing story", 'error');
                     }
 
-                })
+                });
             
         });
 
@@ -1428,14 +1428,14 @@ $(document).on('click', '#add_post', function(e){
         request.fail(function (jqXHR, textStatus) {
             hide_loading_message();
             show_message('Information request failed: ' + textStatus, 'error');
-        })
+        });
     $('#post_form button.storySub').text('publish story');
     $('#post_form').attr('class', 'form add');
     $('#post_form').attr('data-id', '');
     $('#post_form #post_title').val('');
     $('#post_form #post_body').val('');
+    tinyMCE.activeEditor.setContent('');
     $('#post_form #postPix').val('');
-    $('#post_form #post_tags').val('');
   });
 
 ////////////////////////////////upload pix plus post//////////////////////////////////////////////////////////////////////
@@ -1495,6 +1495,7 @@ $(document).on('submit', '#post_form.add', function (event) {
                                 $('#post_form').attr('data-id', '');
                                 $('#post_form #post_title').val('');
                                 $('#post_form #post_body').val('');
+                                tinyMCE.activeEditor.setContent('');
                                 $('#post_form #postPix').val('');
                                 show_message("New post added successfully.", 'success');
                          }, true);
@@ -1536,6 +1537,7 @@ $(document).on('submit', '#post_form.add', function (event) {
                                 $('#post_form #post_title').val('');
                                 $('#post_form #post_body').val('');
                                 $('#post_form #postPix').val('');
+                                tinyMCE.activeEditor.setContent('');
 
                                 show_message("Post added successfully.", 'success');
                          }, true);
@@ -1609,7 +1611,7 @@ $(document).on('click', '.function_edit_post', function(e){
         hide_lightbox();
         show_loading_message();
         var id = $(this).data('id');
-        var $pix = "";
+        var $pix = " ";
         $('.postPix').prop('disabled', false);
 
     var request = $.ajax({
@@ -1645,12 +1647,10 @@ $(document).on('click', '.function_edit_post', function(e){
                 $('#post_form').attr('data-image', $pix); 
                 $('#post_form #select_category').val(output2.data[0].categoryID);
                 $('#post_form #post_title').val(output2.data[0].postTitle);
-                $('#post_form #post_tags').val(output2.data[0].tags);
                 tinyMCE.activeEditor.setContent(output2.data[0].post);
                  
-                 console.log($('#post_form #post_tags').val().split(" "));
 
-                if(output2.data[0].image != '') {
+                if(output2.data[0].image != ' ') {
                 $('.postPix').prop('disabled', true);
                 }
 
@@ -1667,7 +1667,7 @@ $(document).on('click', '.function_edit_post', function(e){
                     show_message('Edit error: ' + textStatus, 'error');
                  }
             
-            })
+            });
 
             } else {
                 show_message('Information request failed', 'error');
@@ -1747,8 +1747,8 @@ $(document).on('submit', '#post_form.edit', function (event) {
                                 $('#post_form').attr('data-id', '');
                                 $('#post_form #post_title').val('');
                                 $('#post_form #post_body').val('');
+                                tinyMCE.activeEditor.setContent('');
                                 $('#post_form #postPix').val('');
-                                $('#post_form #post_tags').val('');
                                 show_message("Post edited successfully.", 'success');
                          }, true);
                     } else{
@@ -1756,7 +1756,7 @@ $(document).on('submit', '#post_form.edit', function (event) {
                         show_message("Error adding post " + output2.result, 'error');
                     }
 
-                })
+                });
 
                     } else if(output.result === "failed" && output.message === "No picture selected.") {
                         var image = output.file_path;
@@ -1788,6 +1788,7 @@ $(document).on('submit', '#post_form.edit', function (event) {
                                 $('#post_form').attr('data-id', '');
                                 $('#post_form #post_title').val('');
                                 $('#post_form #post_body').val('');
+                                tinyMCE.activeEditor.setContent('');
                                 $('#post_form #postPix').val('');
 
                                 show_message("Post edited successfully.", 'success');
@@ -1799,7 +1800,7 @@ $(document).on('submit', '#post_form.edit', function (event) {
                         show_message("Error adding post " + output2.result, 'error');
                     }
 
-                        })
+                        });
 
                         } else {
 
@@ -1847,6 +1848,7 @@ $(document).on('submit', '#post_form.edit', function (event) {
                                 $('#post_form').attr('data-id', '');
                                 $('#post_form #post_title').val('');
                                 $('#post_form #post_body').val('');
+                                tinyMCE.activeEditor.setContent('');
                                 $('#post_form #postPix').val('');
                          }, true);
                     } else{
@@ -2154,7 +2156,7 @@ $(document).on('click', '#add_category', function(e){
                 var curDate = d.getFullYear() + '-' + (month <10 ? '0' : '') + month + '-' + (day<10 ? '0' : '') + day;
 
                 return curDate;
-            }
+            };
 
 
 // $(document).on('focus', '.tag_input', function(){

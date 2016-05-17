@@ -1,4 +1,4 @@
-<div class="widget search">
+<!--<div class="widget search">
                     <form role="form">
                         <div class="input-group">
                             <input type="text" class="form-control" autocomplete="off" placeholder="Search">
@@ -7,7 +7,17 @@
                             </span>
                         </div>
                     </form>
-                </div><!--/.search-->
+                </div>/.search-->
+<div class="widget subscribe">
+<form role="form" id="subscribe_form">
+                    <div class="input-group">
+                        <input type="email" class="form-control subForm" name="subEmail" autocomplete="off" placeholder="Enter your email">
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" type="submit">Go!</button>
+                        </span>
+                    </div>
+                </form>
+</div>
 
                 <div class="widget ads">
                     <div class="row">

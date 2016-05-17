@@ -49,8 +49,8 @@ include './admin_includes/menu.php';
 
                                                 <!-- <div class="tag_input" style="height: 32px; padding: 6px 12px; color:rgb(52, 73, 94); width:100%; border: 1px rgb(204, 204, 204) solid; border-radius: 4px;" contenteditable="true"></div> -->
                                                 <!-- <div class="label label-info">Keywords...(seperated by space)</div> -->
-                                                <label for="post_tags" class="control-label sr-only">Post Tags: </label>
-                                                <input type="text" id="post_tags" name="post_tags" class="post_tags form-control" placeholder="Keywords...(seperated by space)">
+<!--                                                <label for="post_tags" class="control-label sr-only">Post Tags: </label>
+                                                <input type="text" id="post_tags" name="post_tags" class="post_tags form-control" placeholder="Keywords...(seperated by space)">-->
                                             </div>
 
                                             <button type="submit" id="submit" class="btn btn-success submit">publish post</button>

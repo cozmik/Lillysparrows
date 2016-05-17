@@ -12,7 +12,7 @@
 
         if ($file_name == "") {
              $message = "No picture selected.";
-            $filePath = "";
+            $filePath = " ";
             $result = "failed";
         }      
         elseif(in_array($file_ext, $extensions)=== false){

@@ -11,7 +11,6 @@ if (!($con)) {
 //Login function
 $login_message = "";
 if (isset($_REQUEST['login_btn'])) {
-
     $username = mysql_real_escape_string(stripslashes($_REQUEST['username']));
     $password = mysql_real_escape_string(stripslashes($_REQUEST['password']));
 

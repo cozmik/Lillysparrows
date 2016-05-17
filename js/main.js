@@ -12,7 +12,7 @@ jQuery(function ($) {
         loadPage(hashChange);
 
         function loadPage(hashChange) {
-
+            $('pageNo').show();
             var story = storyLinks;
             var cats = loadedCat;
             var dPosts = loadedPosts;
@@ -60,7 +60,9 @@ jQuery(function ($) {
                         //paginationButtonInteract(".skipButton", 3, 'active', "home");
                         break;
                 }
+                
             }
+            
         }
 
     }).trigger('hashchange');
@@ -282,7 +284,8 @@ function hashCheck(hash){
 
             if (output.result === 'success') {
                 $('.blog').html(output.data[0].singleStory);
-
+                $('.pageNo').empty();
+                console.log($('.blog').find('li[data-id='+id+']'));
             } else {
                 console.log('failed');
             }
@@ -290,7 +293,6 @@ function hashCheck(hash){
         });
 
     }
-    ;
 
     //////////////////////////////////////navigate pagination//////////////////////////////////////////////////    
     function pagination(output, p, diff) {
@@ -427,7 +429,7 @@ function hashCheck(hash){
                         $('.blog').html(single_blog);
                         $('.pageNo').empty();
                     } else {
-                        console.log('Faile');
+                        console.log('Failed');
                     }
                 });
             }

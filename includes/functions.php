@@ -1,9 +1,11 @@
 <?php
-session_start();
-$admin_level = $_SESSION['privilege'];
-$author_id = $_SESSION['id'];
-include 'db-connect.php';
 
+session_start();
+if (isset($_SESSION['username'])) {
+    $admin_level = $_SESSION['privilege'];
+    $author_id = $_SESSION['id'];
+}
+include 'db-connect.php';
 
 function formatDate($dbdate) {
     $date = explode("-", $dbdate);
@@ -81,6 +83,7 @@ if (isset($_GET['job'])) {
             $job == 'edit_post' ||
             $job == 'delete_category' ||
             $job == 'get_category' ||
+            $job == 'get_story' ||
             $job == 'blog_view_bottom' ||
             $job == 'get_categories' ||
             $job == 'blog_view' ||
@@ -399,11 +402,10 @@ if ($job != '') {
         $category = $_GET['select_category'];
         $image = $_GET['image'];
         $status = $_GET['status'];
-        $tags = $_GET['post_tags'];
         $date = $_GET['date'];
         $author = $author_id;
 
-        $query1 = "INSERT INTO `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `date` ='{$date}', `tags` = '{$tags}',  `author_id` = '{$author}'";
+        $query1 = "INSERT INTO `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `date` ='{$date}', `author_id` = '{$author}'";
         $query = mysqli_query($con, $query1);
         if (!$query) {
             $result = 'error';
@@ -416,6 +418,8 @@ if ($job != '') {
                     $result = 'error';
                     $message = 'query error';
                 } else {
+                    $result = 'success';
+                    $message = 'query success';
                     while ($row = mysqli_fetch_assoc($select_subscribers)) {
                         $linkName = replaceSpace($category);
                         $linkTitle = replaceSpace($title);
@@ -423,7 +427,7 @@ if ($job != '') {
                         $subject = $title;
                         $post = substr($body, 0, 210) . "...";
 
-                        $message = '<html><head><title>' . $title . '</title>'
+                        $msg = '<html><head><title>' . $title . '</title>'
                                 . '<body style= "padding: 0px">'
                                 . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
                                 . '<a href="http://www.lillysparrows.com"><h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></a></header>'
@@ -440,15 +444,17 @@ if ($job != '') {
                         $header .= "MIME-Version: 1.0\r\n";
                         $header .= "Content-type: text/html\r\n";
 
-                        $retval = mail($to, $subject, $message, $header);
+                        $retval = mail($to, $subject, $msg, $header);
 
                         if ($retval == true) {
-                            $result = 'success';
-                            $message = 'query success';
+                            $status = "sent";
                         } else {
-                            $result = 'error';
-                            $message = 'could not send mail';
+                            $status = "not sent";
                         }
+                        $mysql_data[] = array(
+                            "email" => $to,
+                            "status" => $status
+                        );
                     }
                 }
             } else {
@@ -466,66 +472,69 @@ if ($job != '') {
             $body = $_GET['post_body'];
             $category = $_GET['select_category'];
             $image = $_GET['image'];
-            $tags = $_GET['post_tags'];
             $status = $_GET['status'];
             $date = $_GET['date'];
 
-            $query1 = "UPDATE `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `tags` = '{$tags}', `date` ='{$date}'";
+            $query1 = "UPDATE `cozdb-post` SET `postTitle` = '{$title}', `post` = '{$body}', `categoryID` = '{$category}', `img` = '{$image}', `status` ='{$status}', `date` ='{$date}'";
             $query1 .= "WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
             $query = mysqli_query($con, $query1);
             if (!$query) {
                 $result = 'error';
                 $message = 'query error';
             } else {
-                
-            if ($status == '1') {
-                $query = "SELECT `email` FROM cozdb_mailing WHERE `confirmed` = '1'";
-                $select_subscribers = mysqli_query($con, $query);
-                if (!$select_subscribers) {
-                    $result = 'error';
-                    $message = 'query error';
-                } else {
-                    while ($row = mysqli_fetch_assoc($select_subscribers)) {
-                        $linkName = replaceSpace($category);
-                        $linkTitle = replaceSpace($title);
-                        $to = $row['email'];
-                        $subject = $title;
-                        $post = substr($body, 0, 210) . "...";
 
-                        $message = '<html><head><title>' . $title . '</title>'
-                                . '<body style= "padding: 0px">'
-                                . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
-                                . '<a href="http://www.lillysparrows.com"><h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></a></header>'
-                                . '<h2 style="text-align:center; color: rgb(159,2,81);">' . $title . '</h2>'
-                                . $post . '<p><a href="www.lillysparrows.com/#/' . $linkName . '/' . $linkTitle . ' style="color:blue;" ">Continue reading </a><br>'
-                                . '<footer style="background-color: rgb(159,2,81);">'
-                                . '<div class="col-sm-12" style="text-align:center;">'
-                                . '<h3><a style="color:rgb(200,200,200);" href="http://www.lillysparrows.com">Lillysparrows</a></h3>'
-                                . '<small style="color:white;">&copy; 2016 Webcontractorz. All Rights Reserved.</small></div>'
-                                . '</footer></body></html>';
+                if ($status == '1') {
+                    $query = "SELECT `email` FROM cozdb_mailing WHERE `confirmed` = '1'";
+                    $select_subscribers = mysqli_query($con, $query);
+                    if (!$select_subscribers) {
+                        $result = 'error';
+                        $message = 'query error';
+                    } else {
+                        $result = 'success';
+                        $message = 'query success';
+                        while ($row = mysqli_fetch_assoc($select_subscribers)) {
+                            $linkName = replaceSpace($category);
+                            $linkTitle = replaceSpace($title);
+                            $to = $row['email'];
+                            $subject = $title;
+                            $post = substr($body, 0, 210) . "...";
+
+                            $msg = '<html><head><title>' . $title . '</title>'
+                                    . '<body style= "padding: 0px">'
+                                    . '<header style="height: 100px; width:100%; text-align: center; color:white; background-color: rgb(224,12,104);">'
+                                    . '<a href="http://www.lillysparrows.com"><h1 style="font-size:3.5em; padding-top:10px">LillySparrows</h1></a></header>'
+                                    . '<h2 style="text-align:center; color: rgb(159,2,81);">' . $title . '</h2>'
+                                    . $post . '<p><a href="www.lillysparrows.com/#/' . $linkName . '/' . $linkTitle . ' style="color:blue;" ">Continue reading </a><br>'
+                                    . '<footer style="background-color: rgb(159,2,81);">'
+                                    . '<div class="col-sm-12" style="text-align:center;">'
+                                    . '<h3><a style="color:rgb(200,200,200);" href="http://www.lillysparrows.com">Lillysparrows</a></h3>'
+                                    . '<small style="color:white;">&copy; 2016 Webcontractorz. All Rights Reserved.</small></div>'
+                                    . '</footer></body></html>';
 
 
-                        $header = "From:no-reply@lillysparrows.com \r\n";
-                        $header .= "MIME-Version: 1.0\r\n";
-                        $header .= "Content-type: text/html\r\n";
+                            $header = "From:no-reply@lillysparrows.com \r\n";
+                            $header .= "MIME-Version: 1.0\r\n";
+                            $header .= "Content-type: text/html\r\n";
 
-                        $retval = mail($to, $subject, $message, $header);
+                            $retval = mail($to, $subject, $msg, $header);
 
-                        if ($retval == true) {
-                            $result = 'success';
-                            $message = 'query success';
-                        } else {
-                            $result = 'error';
-                            $message = 'could not send mail';
+                            if ($retval == true) {
+                                $status = "sent";
+                            } else {
+                                $status = "not sent";
+                            }
+                            $mysql_data[] = array(
+                                "email" => $to,
+                                "status" => $status
+                            );
                         }
                     }
+                } else {
+                    $result = 'success';
+                    $message = 'query success';
                 }
-            }  else {
-                $result = 'success';
-                $message = 'query success';
             }
         }
-    }
     }
 //other post codes
 //categories jobs
@@ -712,6 +721,36 @@ if ($job != '') {
         }
     }
 
+elseif ($job == 'get_story') {
+        // Get Category
+        if ($id == '') {
+            $result = 'error';
+            $message = 'id missing';
+        } else {
+            $query1 = "SELECT * FROM `story_view` WHERE id = '" . mysqli_real_escape_string($con, $id) . "'";
+            $query = mysqli_query($con, $query1);
+            if (!$query) {
+                $result = 'error';
+                $message = 'query error';
+            } else {
+                $result = 'success';
+                $message = 'query success';
+                while ($row = mysqli_fetch_array($query)) {
+                    $id = $row['id'];
+                    $episodeTitle = $row['episodeTitle'];
+                    $titleID = $row['titleID'];
+                    $story = $row['story'];
+                    
+                    $mysql_data[] = array(
+                        "id" => $id,
+                        "titleID" => $titleID,
+                        "episodeTitle" => $episodeTitle,
+                        "story" => $story
+                    );
+                }
+            }
+        }
+    }
     //edit title job
     elseif ($job == 'edit_category') {
         // Edit admin
@@ -1402,7 +1441,7 @@ if ($job != '') {
         $nStories = $stories['story_count'];
         $nQuotes = $quotes['quote_count'];
         $nTitles = $titles['quote_count'];
-        if (!$nAdmin || !$nCategories || !$nPosts || !$nSubscribers || !$nStories || !$nQuotes || !$nTitles) {
+        if (!$nAdmin || !$nCategories || !$nSubscribers || !$nStories || !$nQuotes || !$nTitles) {
             $result = 'error';
             $message = 'query error';
         } else {
