@@ -285,7 +285,7 @@ function hashCheck(hash){
             if (output.result === 'success') {
                 $('.blog').html(output.data[0].singleStory);
                 $('.pageNo').empty();
-                console.log($('.blog').find('li[data-id='+id+']'));
+                $('.blog').find('li[data-id='+id+']').addClass('disabled');
             } else {
                 console.log('failed');
             }

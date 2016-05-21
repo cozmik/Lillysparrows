@@ -47,7 +47,7 @@
                        <!--/load categories-->
                     </div>                     
                 </div><!--/.categories-->
-                <div class="widget tags">
+<!--                <div class="widget tags">
                     <h3>Tag Cloud</h3>
                     <ul class="tag-cloud">
                         <li><a class="btn btn-xs btn-primary" href="#">CSS3</a></li>
@@ -60,7 +60,7 @@
                         <li><a class="btn btn-xs btn-primary" href="#">Tutorial</a></li>
                         <li><a class="btn btn-xs btn-primary" href="#">Update</a></li>
                     </ul>
-                </div><!--/.tags-->
+                </div>/.tags-->
                
                 <div class="widget facebook-fanpage">
                     <h3>Facebook Fanpage</h3>

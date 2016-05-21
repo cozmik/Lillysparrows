@@ -22,7 +22,7 @@ include '../includes/db-connect.php';
             <script src="js/html5shiv.js"></script>
             <script src="js/respond.min.js"></script>
             <![endif]-->
-        <link rel="shortcut icon" href="images/ico/favicon.ico">
+        <link rel="shortcut icon" href="../images/favicon.ico">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../images/ico/apple-touch-icon-144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../images/ico/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../images/ico/apple-touch-icon-72-precomposed.png">
@@ -45,7 +45,7 @@ include '../includes/db-connect.php';
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.php"><img src="../images/logo.png" alt="logo"></a>
+                        <a class="navbar-brand"> <h1 class="admin" style="display: inline-block"></h1></a>
                     </div>
 
                 </div>

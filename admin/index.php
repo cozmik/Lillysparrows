@@ -1,4 +1,7 @@
-<?php  
+<?php
+if (isset($_SESSION['username'])) {
+	header("location:dashboard.php");       
+}
 include '../includes/functions2.php';
 ?>
 <!DOCTYPE html>

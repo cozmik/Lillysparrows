@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$database = "cozdb-lillysparrows";
+$database = "lillyspa_blogger";
 
 
 

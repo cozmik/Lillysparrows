@@ -1,8 +1,9 @@
 <?php
 
-print "<script>
-		$('.dashboard').removeClass('hidden');
-	 </script>";
+print '<script>
+		$(".dashboard").removeClass("hidden");
+                $(".admin").text($admin);
+	 </script>';
 
 if ($admin_level == "00") {
     print "<script>

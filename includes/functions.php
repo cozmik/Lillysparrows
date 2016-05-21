@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if (isset($_SESSION['username'])) {
     $admin_level = $_SESSION['privilege'];
@@ -1441,7 +1440,7 @@ elseif ($job == 'get_story') {
         $nStories = $stories['story_count'];
         $nQuotes = $quotes['quote_count'];
         $nTitles = $titles['quote_count'];
-        if (!$nAdmin || !$nCategories || !$nSubscribers || !$nStories || !$nQuotes || !$nTitles) {
+        if (!$nAdmin) {
             $result = 'error';
             $message = 'query error';
         } else {

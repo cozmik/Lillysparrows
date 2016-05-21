@@ -425,6 +425,9 @@ body > section {
 #main-slider .next {
   right: 10px;
 }
+.blog-item h3{
+   text-transform: capitalize;
+}
 #main-slider .active .animation.animated-item-1 {
   -webkit-animation: fadeInUp 300ms linear 300ms both;
   -moz-animation: fadeInUp 300ms linear 300ms both;
